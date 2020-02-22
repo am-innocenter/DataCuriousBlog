@@ -1,0 +1,11 @@
+---
+title: "Know Your Customers : Watson Customer Data Case"
+author: "Innocenter Amima"
+date: 2019-09-31
+categories: ["Regression", "Data viz"]
+tags: ["Regression", "Data viz"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```

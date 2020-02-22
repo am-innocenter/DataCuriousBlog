@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Netlify on Data Curious</title>
+    <link>/categories/netlify/</link>
+    <description>Recent content in Netlify on Data Curious</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 18 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/netlify/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Getting Started with a Blog</title>
+      <link>/post/blogstarter/</link>
+      <pubDate>Sun, 18 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/blogstarter/</guid>
+      <description>I have been creating this blog in my mind for months and hey I finally did it!
+Below I will show you how I set up my personal blog using R Blogdown, Hugo, Github and Netlify. I will continuously update and improve it. Comments or suggestions on how to improve it are welcome :-)
+To begin with, you will need the following to set up your blog
+  Install Blogdown.</description>
+    </item>
+    
+  </channel>
+</rss>

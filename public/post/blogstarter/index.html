@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Getting Started with a Blog - Data Curious</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="Setting up a blog in R studio with Blogdown, Hugo and continuous deployment with Github and Netlify.">
+	<meta property="og:title" content="Getting Started with a Blog" />
+<meta property="og:description" content="Setting up a blog in R studio with Blogdown, Hugo and continuous deployment with Github and Netlify." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/blogstarter/" />
+<meta property="article:published_time" content="2019-08-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-08-18T00:00:00+00:00" />
+
+	<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Getting Started with a Blog"/>
+<meta name="twitter:description" content="Setting up a blog in R studio with Blogdown, Hugo and continuous deployment with Github and Netlify."/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Data Curious" rel="home">
+				<div class="logo__title">Data Curious</div>
+				<div class="logo__tagline">Posts &amp; Data Musings</div>
+			</a>
+		</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Getting Started with a Blog</h1>
+			<div class="post__meta meta">
+<div class="meta__item-categories meta__item">
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/r" rel="category">R</a>, <a class="meta__link" href="/categories/blogdown" rel="category">Blogdown</a>, <a class="meta__link" href="/categories/hugo" rel="category">Hugo</a>, <a class="meta__link" href="/categories/github" rel="category">Github</a>, <a class="meta__link" href="/categories/netlify" rel="category">Netlify</a></span>
+</div>
+
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2019-08-18T00:00:00">August 18, 2019</time>
+</div>
+</div>
+		</header><div class="content post__content clearfix">
+			<p>I have been creating this blog in my mind for months and hey I finally did it!</p>
+<p>Below I will show you how I set up my personal blog using R Blogdown, Hugo, Github and Netlify. I will continuously update and improve it. Comments or suggestions on how to improve it are welcome :-)</p>
+<p>To begin with, you will need the following to set up your blog</p>
+<blockquote>
+<ol>
+<li>Install Blogdown.</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>Select a Hugo theme.</li>
+<li>Set up blogdown</li>
+<li>Create a Github repository for your website.</li>
+<li>Set up Netlify for continuous deployment</li>
+<li>Continue editing your blog and enjoy writing!!</li>
+</ol>
+<p>Scroll down to unlock the bonus tip/idea :-)</p>
+<h2 id="1-installing-blogdown">1. Installing Blogdown</h2>
+<p>Install blogdown in R studio from  CRAN <code>install.packages(&quot;blogdown&quot;)</code></p>
+<p>Or, install from GitHub</p>
+<pre><code class="language-if" data-lang="if">devtools::install_github(&quot;rstudio/blogdown&quot;)```
+
+
+
+
+[More here : blogdown installation](https://bookdown.org/yihui/blogdown/installation.html)
+
+## 2. Selecting a Hugo Theme
+
+
+Hugo is a lightweight engine that can be used to create static websites. Hugo uses `Go` library for its template engine. You will be required to select a theme, here is the [complete list](https://themes.gohugo.io/). More on setting up Hugo themes [here](https://bookdown.org/yihui/blogdown/themes.html).
+
+
+
+## 3. Set up Blogdown 
+
+After selecting the Hugo theme, using R studio open a new project and directory:  using File → New Project → New Directory → Website using Blogdown
+
+![](/images/blogdown1.png)
+
+
+You will be required to specify the directory name of the blog, the subdirectory where the blog is going to be place and the theme you selected in step 2 above. Complete the set up by clicking create project. More on blogdown Rstudio IDE [here](https://bookdown.org/yihui/blogdown/rstudio-ide.html). You can modify the config.toml file, create new posts...
+
+The website created can be built interactively by using ```blogdown::serve_site()``` or clicking Addins as shown
+
+
+![](/images/blogdown2.png)
+
+Now you can create a New Post by clicking `New Post` using the Addins or `new_post(title = 'xxx.md')` for markdown post or `new_post(title = 'xxxx.Rmd')` for R markdown files. 
+
+
+### Blogdown Structure
+
+Depending on the theme selected, kindly note
+
+&gt;1. `Static` folder :  is the root folder for the new blog. This is a perfect place to include the images folder or pdf/materials folder.
+2. `Public` folder : after building the website - the final rendered static HTML files and structure are stored here. This is the folder that shall be uploaded to Github.
+3. `Theme` folder : all the formating for the Hugo theme you selected are stored here.
+4. `Content` folder : is the folder containing all the posts you will create. Usually has some markdown or .Rmd from the example site.
+
+## 4. Deployment with Github
+
+Log into Github and create a new repository - do not add a readme.md yet. I prefer this way so that I do not have to make a `git pull` request.
+
+
+![](/images/repo1.png)
+
+
+Push the existing website located in your local directory to the repository using the command line as shown below - note to change the working directory to public/ before initializing the GIT repository `cd ../public`. I noticed if the whole working directory is put on Github - you will be required to add a `netlify.toml` file - not sure if it was the theme I was using back then or it is universal. Best practise is to upload `public` folder since it contains the rendered HTML files of your website. 
+
+After changing to `../public` folder where the HTML files are rendered do;
+
+
+1. `git init` : _to initialize the local directory/repository_ 
+
+2. `git remote add origin https://github.com/username/repositoryname.git` _for example https://github.com/innocenter/Another-Data-Enthusist.git_ 
+
+3. `git push -u origin master`
+
+Now you can add a readme.md note. You will be required to pull(fetch and merge) the files if you add any file using Github online. Safe to update in local directory using `git add readme` then `git commit -m &quot;read me&quot;`.
+
+
+
+
+
+&gt; Although Github supports only Jekyly and not Hugo, you can publish static HTML pages. Reference the following [link](https://bookdown.org/yihui/blogdown/github-pages.html)
+
+
+## 5. Continous deployment with Netlify
+
+Now worry not about having to upload the _public_ folder to  [Netlify](https://www.netlify.com) everytime. Connect the Github repository and let Netlify continously deploy your website anytime you update. 
+
+Another route will be to skip Github but everytime you will have to upload the public folder to Netlify.
+
+Log in to Netlify create a new site using Github
+
+![](/images/netlify1.png)
+
+
+Select Github and follow the steps to deploy the website - netlify will turn to green if the deployment was a success.
+
+![](/images/netlify2.png)
+
+You can edit the setting of your website name
+
+![](/images/netlify3.png)
+
+
+Now you are ready to role - update Github by adding any new files and committing the changes. Now you have a domain name `website.netlify.com`- remember to edit the config.toml baseurl which was set with a trailing backslash `baseurl = &quot;/&quot;`. Copy the name of the website and replace it as `baseurl = &quot;https://name-of-website.netlify.com&quot;` This is why
+
+&gt; The only purpose for the baseurl field in the config is to define the full base URL of your website for deployment purposes.” - @rdwatters
+
+_And the bonus is!!!!_
+
+## Adding comment section using Disquis
+
+You can include comments in your new webiste. Yay!! Follow the following reference [How to install disqus on hugo](https://notes.peter-baumgartner.net/tutorial/how-to-install-disqus-on-hugo/) that provides clear way to setup.
+
+
+
+### Working on a post and prefer to upload later?
+ 
+ No problem, if it is a markdown file, you can either 
+
+1. Create the content with a future or past `publishDate` value for example date : &quot;2019-08-01&quot; and publishDate: '2020-03-04'
+
+2. Create content with draft: true status
+
+
+
+### Other useful resources for setting up a blog
+
+Creating a website can be messy.  You will actually get a lot of errors - The following resources might be useful. The helped me a lot. 
+
+ 
+
++ [Creating the blog](http://estebanmoro.org/post/2019-02-02-setting-up-your-blog-with-rstudio-and-blogdown-i-creating-the-blog/)
+  
++ [Blogdown book](https://bookdown.org/yihui/blogdown/) by Yihui Xie, Amber Thomas, Alison Presmanes Hill
+
++ [Blogdown and Hugo ](https://www.tylerclavelle.com/code/2017/blogdown/)
+  
++  Change the baseurl after getting a domain name. [More here](https://alison.rbind.io/post/2019-03-04-hugo-troubleshooting/)
++ Long live Netlifly by Yihu Xie [here](https://yihui.name/en/2017/06/netlify-instead-of-github-pages/)
+
+
+
+Happy blogging :-)  
+
+
+Feel free to drop a comment or suggestion in the comment section.
+</code></pre>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/blogdown/" rel="tag">Blogdown</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Innocenter Amima avatar" src="/images/Capture1.PNG" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Innocenter Amima</span>
+	</div>
+	<div class="authorbox__description">
+		My name is Innocenter Amima, a research and data enthusiast. I am iinterested in providing an understanding and deriving insights of the real world data and contributing into reproducible research. I enjoy working in a collaborative and socially diverse environment where I can contribute.
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/error_rprofile/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">R markdown errors - not knitting</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/post/censuske/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">Data Mining and Analysis using rtweet package</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "life-as-data-points" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Innocenter Amima.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script></body>
+</html>

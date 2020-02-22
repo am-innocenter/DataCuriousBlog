@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-02-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2020-02-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/draft/</loc>
+    <lastmod>2020-02-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/draft/musing_pivot/</loc>
+    <lastmod>2020-02-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/musings/</loc>
+    <lastmod>2020-02-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/musings/</loc>
+    <lastmod>2020-02-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-02-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/data-viz/</loc>
+    <lastmod>2019-11-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/data-viz/</loc>
+    <lastmod>2019-11-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2019-11-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/tidy-tuesday/</loc>
+    <lastmod>2019-11-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/tidy-tuesday/</loc>
+    <lastmod>2019-11-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/loans/</loc>
+    <lastmod>2019-11-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/parkinjuries/</loc>
+    <lastmod>2019-09-19T18:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/data-cleaning/</loc>
+    <lastmod>2019-09-19T18:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/data-mining/</loc>
+    <lastmod>2019-09-08T18:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/data-mining/</loc>
+    <lastmod>2019-09-08T18:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/censuske/</loc>
+    <lastmod>2019-09-08T18:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/nlp/</loc>
+    <lastmod>2019-09-08T18:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/nlp/</loc>
+    <lastmod>2019-09-08T18:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2019-09-08T18:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/blogdown/</loc>
+    <lastmod>2019-08-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/blogdown/</loc>
+    <lastmod>2019-08-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/blogstarter/</loc>
+    <lastmod>2019-08-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/github/</loc>
+    <lastmod>2019-08-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/hugo/</loc>
+    <lastmod>2019-08-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/netlify/</loc>
+    <lastmod>2019-08-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r-markdown/</loc>
+    <lastmod>2019-08-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/error_rprofile/</loc>
+    <lastmod>2019-08-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/eidobservations/</loc>
+    <lastmod>2019-06-05T18:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/data-cleaning/</loc>
+  </url>
+  
+  <url>
+    <loc>/post/customerdata/</loc>
+  </url>
+  
+  <url>
+    <loc>/post/programminglanguages/</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/regression/</loc>
+  </url>
+  
+  <url>
+    <loc>/categories/regression/</loc>
+  </url>
+  
+</urlset>

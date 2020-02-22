@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R on Data Curious</title>
+    <link>/categories/r/</link>
+    <description>Recent content in R on Data Curious</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 08 Sep 2019 18:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Data Mining and Analysis using rtweet package</title>
+      <link>/post/censuske/</link>
+      <pubDate>Sun, 08 Sep 2019 18:13:14 -0500</pubDate>
+      
+      <guid>/post/censuske/</guid>
+      <description>Census 2019 in Kenya The 8th 2019 Population and Housing Census started from the night of 24/25th August 2019 and ended on 31st August 2019.
+Census involved counting of people within the border of Kenya at a specific time. Census is an important process for the Govenrment as it provides evidence for proper planning and resource allocation, policy formulation and targeting of development plans. You can read more about the census here and here</description>
+    </item>
+    
+    <item>
+      <title>Getting Started with a Blog</title>
+      <link>/post/blogstarter/</link>
+      <pubDate>Sun, 18 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/blogstarter/</guid>
+      <description>I have been creating this blog in my mind for months and hey I finally did it!
+Below I will show you how I set up my personal blog using R Blogdown, Hugo, Github and Netlify. I will continuously update and improve it. Comments or suggestions on how to improve it are welcome :-)
+To begin with, you will need the following to set up your blog
+  Install Blogdown.</description>
+    </item>
+    
+    <item>
+      <title>R markdown errors - not knitting</title>
+      <link>/post/error_rprofile/</link>
+      <pubDate>Sun, 18 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/error_rprofile/</guid>
+      <description>I was getting errors knitting .Rmarkdown or .Rmd files and the culprint was that I had multiple .Rprofiles in my Home and project directories. The error is as shown below
+Everytime I restarted the machine it was loading the previous workspace with the following error.
+At first I thought .RData was the culprint and I unliked it using unlink(&amp;ldquo;~/.RData&amp;rdquo;). It still did not solve the problem.
+I had updated to the latest Rversion and my first instinct was update libraries, uninstall and reinstall R+Rstudio but still the error was there anytime I tried knitting.</description>
+    </item>
+    
+  </channel>
+</rss>

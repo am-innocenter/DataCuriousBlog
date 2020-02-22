@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Curious</title>
+    <link>/</link>
+    <description>Recent content on Data Curious</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 07 Feb 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Musing : pivot wider and group_by</title>
+      <link>/draft/musing_pivot/</link>
+      <pubDate>Fri, 07 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/draft/musing_pivot/</guid>
+      <description>library(tidyverse) I was using pivot_wider and noticed some values were NA for some column and this was not supposed to be the case. I will share a replicated example and what steps I used
+Variable &amp;lt;- LETTERS[1:5] Value &amp;lt;- rep(10:29) Year &amp;lt;- rep(2010:2014) df &amp;lt;- data.frame(c(Year, Year, Year, Year), c(Variable,Variable, Variable, Variable), Value) colnames(df) &amp;lt;- c(&amp;quot;Year&amp;quot;, &amp;quot;Variable&amp;quot;, &amp;quot;Value&amp;quot;) df %&amp;gt;% pivot_wider(names_from = Variable, values_from = Value, values_fn = list(Value=mean)) -&amp;gt;df1 df %&amp;gt;% group_by(Year, Variable) %&amp;gt;% pivot_wider(names_from = Variable, values_from = Value, values_fn = list(Value=mean)) ## # A tibble: 5 x 6 ## # Groups: Year [5] ## Year A B C D E ## &amp;lt;int&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; ## 1 2010 17.</description>
+    </item>
+    
+    <item>
+      <title>Understanding US Student Loan debt</title>
+      <link>/post/loans/</link>
+      <pubDate>Tue, 26 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/loans/</guid>
+      <description>This week the data was inspired from the Dignity &amp;amp; Debt project. This will help in understanding and spreading awareness around Student Loan debt. The data source is here
+The objective for this is to perform data visualization and determine the most preferred method of payment for student loans in the US. I will use patchwork package to combine plots.
+Loading the data
+loans &amp;lt;- read.csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-11-26/loans.csv&amp;quot;) glimpse(loans) ## Observations: 291 ## Variables: 10 ## $ agency_name &amp;lt;fct&amp;gt; &amp;quot;Account Control Technology, Inc.</description>
+    </item>
+    
+    <item>
+      <title>Amusement Park Injuries in TX, USA</title>
+      <link>/post/parkinjuries/</link>
+      <pubDate>Thu, 19 Sep 2019 18:13:14 -0500</pubDate>
+      
+      <guid>/post/parkinjuries/</guid>
+      <description>Amusement park injuries data is from data.world. This is part of the weekly #TidyTuesday project aimed at the R ecosystem on Twitter.
+The data has a lot of text, inconsistent NAs and dates.
+Objectives Clean the data Perform EDA and Data viz  To achieve the objectives we shall answer the following questions
+How many injuries were recorded per year, per month? What kind of injuries were reported? What were the top causes of injuries?</description>
+    </item>
+    
+    <item>
+      <title>Data Mining and Analysis using rtweet package</title>
+      <link>/post/censuske/</link>
+      <pubDate>Sun, 08 Sep 2019 18:13:14 -0500</pubDate>
+      
+      <guid>/post/censuske/</guid>
+      <description>Census 2019 in Kenya The 8th 2019 Population and Housing Census started from the night of 24/25th August 2019 and ended on 31st August 2019.
+Census involved counting of people within the border of Kenya at a specific time. Census is an important process for the Govenrment as it provides evidence for proper planning and resource allocation, policy formulation and targeting of development plans. You can read more about the census here and here</description>
+    </item>
+    
+    <item>
+      <title>Getting Started with a Blog</title>
+      <link>/post/blogstarter/</link>
+      <pubDate>Sun, 18 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/blogstarter/</guid>
+      <description>I have been creating this blog in my mind for months and hey I finally did it!
+Below I will show you how I set up my personal blog using R Blogdown, Hugo, Github and Netlify. I will continuously update and improve it. Comments or suggestions on how to improve it are welcome :-)
+To begin with, you will need the following to set up your blog
+  Install Blogdown.</description>
+    </item>
+    
+    <item>
+      <title>R markdown errors - not knitting</title>
+      <link>/post/error_rprofile/</link>
+      <pubDate>Sun, 18 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/error_rprofile/</guid>
+      <description>I was getting errors knitting .Rmarkdown or .Rmd files and the culprint was that I had multiple .Rprofiles in my Home and project directories. The error is as shown below
+Everytime I restarted the machine it was loading the previous workspace with the following error.
+At first I thought .RData was the culprint and I unliked it using unlink(&amp;ldquo;~/.RData&amp;rdquo;). It still did not solve the problem.
+I had updated to the latest Rversion and my first instinct was update libraries, uninstall and reinstall R+Rstudio but still the error was there anytime I tried knitting.</description>
+    </item>
+    
+    <item>
+      <title>Data mining and wrangling : A case of Eid Occurance</title>
+      <link>/post/eidobservations/</link>
+      <pubDate>Wed, 05 Jun 2019 18:13:14 -0500</pubDate>
+      
+      <guid>/post/eidobservations/</guid>
+      <description>Finally, Eid is here! Id-Ul-Fitr commonly known as Eid marks the end of fasting (Ramadhan) and is the first day of the Islamic month Shawwal. I spent my weekend learning data mining with rvest and analysing data for Eid observations.
+The following link contains information about Eid, its occurence of per Day, Month, year. For today, I intend to only mine the table and explore.
+Objectives Mine data - table - from a URL using the package rvest (this was my first time and its really simple)</description>
+    </item>
+    
+    <item>
+      <title>Know Your Customers : Watson Customer Data Case</title>
+      <link>/post/customerdata/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/post/customerdata/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Programming Language Ecosystem</title>
+      <link>/post/programminglanguages/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/post/programminglanguages/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

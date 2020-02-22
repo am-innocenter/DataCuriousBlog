@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Amusement Park Injuries in TX, USA - Data Curious</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta property="og:title" content="Amusement Park Injuries in TX, USA" />
+<meta property="og:description" content="Amusement park injuries data is from data.world. This is part of the weekly #TidyTuesday project aimed at the R ecosystem on Twitter.
+The data has a lot of text, inconsistent NAs and dates.
+Objectives Clean the data Perform EDA and Data viz  To achieve the objectives we shall answer the following questions
+How many injuries were recorded per year, per month? What kind of injuries were reported? What were the top causes of injuries?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/parkinjuries/" />
+<meta property="article:published_time" content="2019-09-19T18:13:14-05:00" />
+<meta property="article:modified_time" content="2019-09-19T18:13:14-05:00" />
+
+	<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Amusement Park Injuries in TX, USA"/>
+<meta name="twitter:description" content="Amusement park injuries data is from data.world. This is part of the weekly #TidyTuesday project aimed at the R ecosystem on Twitter.
+The data has a lot of text, inconsistent NAs and dates.
+Objectives Clean the data Perform EDA and Data viz  To achieve the objectives we shall answer the following questions
+How many injuries were recorded per year, per month? What kind of injuries were reported? What were the top causes of injuries?"/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Data Curious" rel="home">
+				<div class="logo__title">Data Curious</div>
+				<div class="logo__tagline">Posts &amp; Data Musings</div>
+			</a>
+		</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Amusement Park Injuries in TX, USA</h1>
+			<div class="post__meta meta">
+<div class="meta__item-categories meta__item">
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/data-cleaning" rel="category">Data Cleaning</a>, <a class="meta__link" href="/categories/data-viz" rel="category">Data viz</a></span>
+</div>
+
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2019-09-19T18:13:14">September 19, 2019</time>
+</div>
+</div>
+		</header>
+		<figure class="post__thumbnail">
+			<img src="/images/permonth.png" alt="Amusement Park Injuries in TX, USA">
+		</figure><div class="content post__content clearfix">
+			
+
+
+<p>Amusement park injuries data is from <a href="https://data.world/amillerbernd/texas-amusement-park-accidents/workspace/file?filename=Amusement-Park-Injuries-xlsxCleaned.xls">data.world</a>. This is part of the weekly #TidyTuesday project aimed at the R ecosystem on Twitter.</p>
+<p>The data has a lot of text, inconsistent NAs and dates.</p>
+<div id="objectives" class="section level2">
+<h2>Objectives</h2>
+<ol style="list-style-type: decimal">
+<li>Clean the data</li>
+<li>Perform EDA and Data viz</li>
+</ol>
+<p>To achieve the objectives we shall answer the following questions</p>
+<ol style="list-style-type: decimal">
+<li>How many injuries were recorded per year, per month?</li>
+<li>What kind of injuries were reported? What were the top causes of injuries?</li>
+<li>Who were injured more? Children? Adults? Female/Girls? Male/Boys?</li>
+</ol>
+<p>Loading packages</p>
+<pre class="r"><code>library(extrafont) #fonts
+#loadfonts(device = &quot;win&quot;) #initializing
+library(tidyverse) #data manipulation
+
+library(tidytext) #unnest text to tokens
+library(stopwords) #for excuding stopwords from tokens
+library(wordcloud) # to render wordclouds
+library(janitor) #for data formating conversion of long/wide date types from excel
+library(lubridate) #for date manipulation/formating</code></pre>
+<pre class="r"><code>tx_injuries &lt;- readr::read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-09-10/tx_injuries.csv&quot;, na=c(&quot;&quot;, &quot;N/A&quot;, &quot;NA&quot;, &quot;n/a&quot;, &quot;na&quot;))</code></pre>
+<pre class="r"><code>injuries &lt;- tx_injuries #copy
+glimpse(injuries)</code></pre>
+<pre><code>## Observations: 542
+## Variables: 13
+## $ injury_report_rec &lt;dbl&gt; 2032, 1897, 837, 99, 55, 780, 253, 253, 55, 55, 203…
+## $ name_of_operation &lt;chr&gt; &quot;Skygroup Investments LLC DBA iFly Austin&quot;, &quot;Willie…
+## $ city              &lt;chr&gt; &quot;Austin&quot;, &quot;Galveston&quot;, &quot;Grapevine&quot;, &quot;San Antonio&quot;, …
+## $ st                &lt;chr&gt; &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;AZ&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;AZ…
+## $ injury_date       &lt;chr&gt; &quot;2/12/2013&quot;, &quot;3/2/2013&quot;, &quot;3/3/2013&quot;, &quot;3/3/2013&quot;, &quot;3…
+## $ ride_name         &lt;chr&gt; &quot;I Fly&quot;, &quot;Gulf Glider&quot;, &quot;Howlin Tornado&quot;, &quot;Scooby D…
+## $ serial_no         &lt;chr&gt; &quot;SV024&quot;, &quot;GS-11-10-WG-14&quot;, &quot;0643-C1-T1-TN60&quot;, NA, &quot;…
+## $ gender            &lt;chr&gt; &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;, &quot;M&quot;, &quot;F&quot;, &quot;…
+## $ age               &lt;chr&gt; &quot;37&quot;, &quot;43&quot;, NA, &quot;51&quot;, &quot;17&quot;, &quot;40&quot;, &quot;36&quot;, &quot;23&quot;, &quot;40&quot;,…
+## $ body_part         &lt;chr&gt; &quot;Mouth&quot;, &quot;Knee&quot;, &quot;Right Shoulder&quot;, &quot;Lower Leg&quot;, &quot;He…
+## $ alleged_injury    &lt;chr&gt; &quot;Student hit mouth on wall&quot;, &quot;Alleged arthroscopy t…
+## $ cause_of_injury   &lt;chr&gt; &quot;Student attempted unfamiliar manuever&quot;, &quot;Hit her k…
+## $ other             &lt;chr&gt; NA, &quot;Prior history of problems with this knee. Firs…</code></pre>
+<pre class="r"><code>table((injuries$st)) </code></pre>
+<pre><code>## 
+##  AZ  FL  TX 
+##   5   1 536</code></pre>
+<pre class="r"><code>unique(injuries$gender)</code></pre>
+<pre><code>## [1] &quot;F&quot; &quot;M&quot; NA  &quot;m&quot;</code></pre>
+</div>
+<div id="data-cleaning" class="section level1">
+<h1>Data Cleaning</h1>
+<blockquote>
+<p>We shall drop data from the other states and only consider TX. 
+Rename the two factors of gender and drop NA
+Date and age is a character, we shall convert to date type and numeric respectively</p>
+</blockquote>
+<pre class="r"><code>#select TX state only given it has 99% of the data points
+injuries %&gt;%
+  filter(st == &quot;TX&quot;) -&gt; injuries
+
+#factor gender as M anf F using dplyr case_when and drop NAs
+injuries &lt;- injuries %&gt;%
+  mutate(gender = case_when(
+    gender %in% c(&quot;F&quot;, &quot;f&quot;) ~ &quot;F&quot;,
+    gender %in% c(&quot;M&quot;, &quot;m&quot;) ~ &quot;M&quot;)
+        ) %&gt;%
+  drop_na(gender)
+
+#convert age to numeric and drop nas
+
+injuries &lt;- injuries %&gt;%
+  mutate(age=as.numeric(age)) %&gt;%
+  filter(!is.na(age))</code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<p>The date has two types - excel numeric and mdy format. Using a two-step process; I converted the date using the <code>janitor</code> package for the excel numeric and to dates from character using the <code>lubridate</code> package.</p>
+<pre class="r"><code>#convert the excel numeric data format using janitor package
+
+injuries$date_inj_excel &lt;- excel_numeric_to_date(as.numeric(as.character(injuries$injury_date)))</code></pre>
+<pre><code>## Warning in
+## excel_numeric_to_date(as.numeric(as.character(injuries$injury_date))): NAs
+## introduced by coercion</code></pre>
+<pre class="r"><code>#convert the dates to numeric using the lubridate package
+  
+injuries$date_inj &lt;- parse_date_time(injuries$injury_date, orders = c(&quot;mdy&quot;))</code></pre>
+<pre><code>## Warning: 306 failed to parse.</code></pre>
+<pre class="r"><code>#combine the two columns
+
+injuries %&gt;%
+  unite(&quot;date_final&quot;, date_inj:date_inj_excel) -&gt; injuries 
+
+#remove the NA_ and _NA #using regexprs 
+
+injuries$datefinal &lt;- sapply(injuries$date_final, function(x) gsub(&quot;NA_&quot;, &quot;&quot;, x))
+injuries$datefinal &lt;- sapply(injuries$datefinal, function(x) gsub(&quot;_NA&quot;, &quot;&quot;, x))
+
+#parse as date
+injuries$datefinal &lt;- parse_date(injuries$datefinal) 
+
+#include year and month 
+injuries %&gt;%  
+  mutate(year= lubridate::year(datefinal),
+         month = lubridate::month(datefinal)
+  ) -&gt; injuries</code></pre>
+<div id="data-viz" class="section level2">
+<h2>Data Viz</h2>
+<p>Here we determine how many injuries were recorded per month and per year. To analyse which months need extra attention because we expect more injurries in the park during summer compared to winter.</p>
+<pre class="r"><code>#injuries per year
+injuries %&gt;%
+  group_by(year) %&gt;%
+  tally() %&gt;%
+  ungroup() %&gt;%
+  drop_na() %&gt;%
+  ggplot(injuries, mapping=aes(reorder(year, -n), n , fill=year, label=n))+
+    geom_col(show.legend = FALSE) +
+    geom_text(nudge_y = 10) +
+    labs(title= &quot; Amusement Park Injuries per Year&quot;, 
+       caption = &quot;By am_innocenter for #TidyTuesdy \n Data source : data.world&quot;, x= &quot; Year&quot;, y=&quot;Number of Injuries&quot; )+
+  theme(panel.background = element_rect(fill=&quot;bisque&quot;)) + #, colour = &quot;#6D9EC1&quot;)) +
+  theme(text = element_text(family = &quot;Comic Sans MS&quot;, size = 14),
+        plot.caption = element_text( size=10, color = &quot;grey40&quot;),
+        plot.title =element_text(size = 16, face=&quot;bold&quot;, vjust=1) )+
+  theme(
+    # Hide panel borders and remove grid lines
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()        ) +
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="/post/Parkinjuries_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>The numer of injuries over the years have been decreasing significantly. This could be to a number of reasons. To speculate the least we are getting better at control measures on the parks to avoid injuries.</p>
+<p>To answer how many injuries were recorded per month we utilized the <code>month.abb</code> built-in constant to rearrange months from Jan - Dec</p>
+<pre class="r"><code>#injuries per month
+
+injuries %&gt;%
+  group_by(Months=month.abb[month]) %&gt;% #built-in constant month.abb has 3-letter abbrev for the months
+  tally() %&gt;%
+  ungroup() %&gt;%
+  drop_na() %&gt;%
+  ggplot(injuries, mapping=aes(Months, n , fill=Months, color=Months, label = n))+
+    geom_col(show.legend = FALSE)  +
+    geom_text(nudge_y = 6) +
+    scale_x_discrete(limits= month.abb) + #rearranges the month order
+    labs(title= &quot; Amusement Park Injuries per Month&quot;, 
+         caption = &quot;By am_innocenter for #TidyTuesdy \n Data source : data.world&quot;, x= &quot; Month&quot;, y=&quot;Number of Injuries&quot;
+         )+
+    theme(panel.background = element_rect(fill=&quot;gray8&quot;)) + #, colour = &quot;#6D9EC1&quot;)) +
+    theme(text = element_text(family = &quot;Comic Sans MS&quot;, size = 14),
+          plot.caption = element_text( size=10, color = &quot;grey40&quot;),
+          plot.title =element_text(size = 16, face=&quot;bold&quot;, vjust=1) )+
+    theme(
+    # Hide panel borders and remove grid lines
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()        ) +
+    theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="/post/Parkinjuries_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>As we had pre-empted, June-Aug has the highest number of injuries.</p>
+<p>Who got injured more? Male or female? children or adults?</p>
+<pre class="r"><code>injuries %&gt;%
+  select(gender,age) %&gt;%
+  filter(age&gt;=0) %&gt;%
+  mutate(age_bins = cut_interval(age,7)) %&gt;%
+  group_by(gender, age_bins) %&gt;%
+  tally() %&gt;%
+  ungroup() %&gt;%
+  mutate(count= if_else(gender==&quot;F&quot;, -n, n)) %&gt;%
+  ggplot(aes(x=age_bins, count , fill=gender))+
+    geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +
+    coord_flip()+
+    scale_y_continuous(breaks = seq(-60, 60, 20),
+                       labels = c(seq(60,0,-20), seq(20,60,20)))+ #renaming y aesthetics
+  labs(title= &quot;Amusement Park injuries per Age and Gender&quot;,
+       x=&quot;Age Group&quot;, y=&quot;Number of Injuries&quot;,
+       caption = &quot;Plot by @am_innocenter for #TidyTuesday \n Data source: data.world&quot;)+
+  theme_minimal()+
+  theme(text = element_text(family = &quot;Comic Sans MS&quot;, size = 14),
+        plot.caption = element_text( size=10, color = &quot;gray40&quot;),
+        plot.title =element_text(size = 16, face=&quot;bold&quot;, vjust=1) ) +
+  geom_text(aes(5,-60), label=&quot;\u2640&quot;, hjust = 0.5, size = 25,color = &quot;#F8766D&quot;, family = &quot;Comic Sans MS&quot;) +
+  geom_text(aes(5,45), label=&quot;\u2642&quot;, hjust = 0.5, size = 25, color = &quot;#00BFC4&quot;, family = &quot;Comic Sans MS&quot;) </code></pre>
+<p><img src="/post/Parkinjuries_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Trick I learned to pick the colors use <code>ggplot_build(plotname)</code>.</p>
+<p>Children reported more injuries compared to adults. Females are slightly more by 5% compared to the males.</p>
+<p>Analyse the cause of injuries and body parts affected below using <code>tidytext</code>.</p>
+<pre class="r"><code>injuries %&gt;%
+  select(gender,age , body_part) %&gt;%
+  mutate(age_bins = cut_interval(age,7)) %&gt;%
+  count(body_part,age_bins, sort = TRUE) %&gt;%
+  top_n(20) %&gt;%
+    ggplot(aes(age_bins,n, fill=body_part)) +
+    geom_col() +
+    coord_flip() +
+    theme_minimal()+
+    labs(title= &quot; Amusement Park Injuries&quot;, subtitle = &quot;Body parts injured per age group&quot;, 
+         caption = &quot;By am_innocenter for #TidyTuesdy \n Data source : data.world&quot;, x= &quot; Age Group&quot;, y=&quot;Number of Injuries&quot; )+
+    theme(panel.background = element_rect(color=&quot;grey40&quot;)) +
+    theme(text = element_text(family = &quot;Comic Sans MS&quot;, size = 14),
+        plot.caption = element_text( size=10, color = &quot;grey40&quot;),
+        plot.title =element_text(size = 16, face=&quot;bold&quot;, vjust=1) ) +
+    theme(legend.position = c(.97, .97),legend.justification = c(&quot;right&quot;, &quot;top&quot;),
+          legend.box.just = &quot;right&quot;, 
+          legend.box.background = element_rect(fill=&quot;grey80&quot;, color=&quot;grey40&quot;)) </code></pre>
+<pre><code>## Selecting by n</code></pre>
+<p><img src="/post/Parkinjuries_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>The most injured parts are head and shoulder among children and teenagers. For the elderly &gt; 50 years it is the neck and shoulder. Most adults will be in the park taking care of the younger ones - the most injured body parts are shoulder and head.</p>
+<pre class="r"><code>injuries %&gt;%
+  select(cause_of_injury) %&gt;%
+  unnest_tokens(word, cause_of_injury) %&gt;%
+  anti_join(stop_words, by=&quot;word&quot;) %&gt;%
+  count(word, sort = TRUE) %&gt;%
+  ungroup() %&gt;%
+  filter(n &gt; 20) %&gt;%
+  ggplot(mapping=aes(reorder(word,n), n, fill=n, label=n))+
+    geom_col()+
+    geom_text(nudge_y = 2) +
+    coord_flip() +
+    labs(title= &quot; Amusement Park Injuries&quot;, 
+         subtitle = &quot;Top Words in Cause of Injury&quot;, 
+         caption = &quot;By am_innocenter for #TidyTuesdy \n Data source : data.world&quot;, 
+         x= &quot; Words in Cause&quot;, y=&quot;Count&quot;)+
+    theme(panel.background = element_rect(fill=&quot;beige&quot;)) + 
+    theme(text = element_text(family = &quot;Comic Sans MS&quot;, size = 14),
+          plot.caption = element_text( size=10, color = &quot;grey&quot;),
+          plot.title =element_text(size = 16, face=&quot;bold&quot;, vjust=1) )+
+    theme(
+      # Hide panel borders and remove grid lines
+      panel.border = element_blank(),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank()        ) +
+    theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="/post/Parkinjuries_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>I wanted to determine the words that occur commonly in pairs and how often sequence of word1 and word 2 occurs</p>
+<pre class="r"><code>#ngrams
+injuries %&gt;%
+  unnest_tokens(biwords, body_part, token=&quot;ngrams&quot;, n=2) %&gt;%
+  count(biwords, sort=TRUE) %&gt;%
+  top_n(15) %&gt;%
+  filter(!is.na(biwords)) %&gt;%
+  ggplot(aes(reorder(biwords,n),n, fill= n, label=n))  +
+    geom_col(show.legend = FALSE)+
+    coord_flip() +
+    geom_text(nudge_y = 0.5)+
+    labs(title= &quot;Amusement Park injuries&quot;, subtitle = &quot;Most words occuring together&quot;,
+       x=&quot;Bi-words &quot;, y=&quot;Count&quot;,
+       caption = &quot;Plot by @am_innocenter for #TidyTuesday \n Data source: data.world&quot;) +
+    theme(panel.background = element_rect(fill=&quot;beige&quot;)) + 
+    theme(text = element_text(family = &quot;Comic Sans MS&quot;, size = 14),
+          plot.caption = element_text( size=10, color = &quot;grey&quot;),
+          plot.title =element_text(size = 16, face=&quot;bold&quot;, vjust=1) )+
+    theme(
+      # Hide panel borders and remove grid lines
+      panel.border = element_blank(),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank()        ) +
+    theme(legend.position = &quot;none&quot;)</code></pre>
+<pre><code>## Selecting by n</code></pre>
+<p><img src="/post/Parkinjuries_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>#Learnings</p>
+<blockquote>
+<p>Converting excel numeric date format. Using tidytext, discovering janitor package,</p>
+</blockquote>
+<p>In case you have feedback, questions, suggestions do not hesitate to leave a comment.</p>
+</div>
+</div>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/tidy-tuesday/" rel="tag">Tidy Tuesday</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/data-viz/" rel="tag">Data viz</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Innocenter Amima avatar" src="/images/Capture1.PNG" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Innocenter Amima</span>
+	</div>
+	<div class="authorbox__description">
+		My name is Innocenter Amima, a research and data enthusiast. I am iinterested in providing an understanding and deriving insights of the real world data and contributing into reproducible research. I enjoy working in a collaborative and socially diverse environment where I can contribute.
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/censuske/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Data Mining and Analysis using rtweet package</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/post/loans/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">Understanding US Student Loan debt</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "life-as-data-points" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Innocenter Amima.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script></body>
+</html>

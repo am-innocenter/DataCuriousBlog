@@ -1,0 +1,169 @@
+---
+title: "Data mining and wrangling : A case of Eid Occurance"
+author: "Innocenter Amima"
+date: 2019-06-05T18:13:14-05:00
+output: html_document
+categories: ["Data Mining", "Data Viz"]
+tags: ["Data Mining" , "Data viz"]
+thumbnail: /images/Eid.png
+---
+
+
+
+<p>Finally, Eid is here! Id-Ul-Fitr commonly known as Eid marks the end of fasting (<em>Ramadhan</em>) and is the first day of the Islamic month <em>Shawwal</em>. I spent my weekend learning data mining with rvest and analysing data for Eid observations.</p>
+<p>The following <a href="https://www.timeanddate.com/holidays/kenya/eid-al-fitr">link</a> contains information about Eid, its occurence of per Day, Month, year. For today, I intend to only mine the table and explore.</p>
+<div id="objectives" class="section level3">
+<h3>Objectives</h3>
+<ol style="list-style-type: decimal">
+<li><p>Mine data - table - from a URL using the package rvest (this was my first time and its really simple)</p></li>
+<li><p>Explore basic data cleaning using dplyr (this is included in tidyverse library)</p></li>
+<li><p>Explore the occurence of Eid i.e per month, per day</p></li>
+<li><p>Perform visualization using ggplot :-).</p></li>
+</ol>
+<p>This is a learning curve and feel free to drop in your comments and/or suggestions. I will show you a bit of my thought process when analysing and wrangling data.</p>
+<p><em>Let’s go</em> 😄 💃</p>
+<p><em>Side note</em> check this <a href="https://github.com/hadley/emo">link</a> out to learn more about including emojis in a markdown.</p>
+<p>Loading packages required</p>
+<pre class="r"><code>library(tidyverse) # data wrangling
+library(rvest) #used for web scraping
+library(ggplot2)
+library(emo)</code></pre>
+</div>
+<div id="data-mining" class="section level2">
+<h2>Data Mining</h2>
+<p>Loading the data - but first we have to mine it from the URL provided</p>
+<pre class="r"><code>url.page &lt;- read_html(&#39;https://www.timeanddate.com/holidays/kenya/eid-al-fitr&#39;)
+
+Eid.table &lt;- html_nodes(url.page, &#39;table&#39;)
+
+head(Eid.table) </code></pre>
+<pre><code>## {xml_nodeset (3)}
+## [1] &lt;table class=&quot;tb-quick-facts&quot;&gt;\n&lt;tr&gt;\n&lt;th&gt;This year:&lt;/th&gt;\n&lt;td&gt;Mon, 25 Ma ...
+## [2] &lt;table id=&quot;tb-hol_obs&quot; class=&quot;tb-theme fw sep&quot;&gt;\n&lt;thead&gt;&lt;tr&gt;\n&lt;th&gt;Year&lt;/t ...
+## [3] &lt;table class=&quot;tb-quick-facts&quot;&gt;&lt;tbody&gt;\n&lt;tr&gt;\n&lt;th&gt;English&lt;/th&gt;\n&lt;td&gt;Eid al ...</code></pre>
+<p>There are 3 tables - no idea which one contains the Eid data. I will extract all the tables - out of curiosity and they’re only 3. If we had several tables - we could explicity use the table names e.g <em>html_nodes(‘#table2’)</em></p>
+<pre class="r"><code>Eid.tables &lt;- url.page %&gt;%
+  html_nodes(&#39;table&#39;) %&gt;% #to select &lt;table&gt; nodes
+  .[1:3] %&gt;%
+  html_table(fill = TRUE)
+
+str(Eid.tables) # from 2015 t0 2025</code></pre>
+<pre><code>## List of 3
+##  $ :&#39;data.frame&#39;:    4 obs. of  2 variables:
+##   ..$ X1: chr [1:4] &quot;This year:&quot; &quot;Next year:&quot; &quot;Last year:&quot; &quot;Type:&quot;
+##   ..$ X2: chr [1:4] &quot;Mon, 25 May 2020&quot; &quot;Fri, 14 May 2021&quot; &quot;Wed, 5 Jun 2019&quot; &quot;Public holiday&quot;
+##  $ :&#39;data.frame&#39;:    12 obs. of  5 variables:
+##   ..$ Year        : int [1:12] 2015 2015 2016 2017 2018 2019 2020 2021 2022 2023 ...
+##   ..$ Weekday     : chr [1:12] &quot;Sun&quot; &quot;Mon&quot; &quot;Thu&quot; &quot;Mon&quot; ...
+##   ..$ Date        : chr [1:12] &quot;19 Jul&quot; &quot;20 Jul&quot; &quot;7 Jul&quot; &quot;26 Jun&quot; ...
+##   ..$ Name        : chr [1:12] &quot;Eid al-Fitr&quot; &quot;Eid al-Fitr observed&quot; &quot;Eid al-Fitr&quot; &quot;Eid al-Fitr&quot; ...
+##   ..$ Holiday Type: chr [1:12] &quot;Public holiday&quot; &quot;Public holiday&quot; &quot;Public holiday&quot; &quot;Public holiday&quot; ...
+##  $ :&#39;data.frame&#39;:    4 obs. of  2 variables:
+##   ..$ X1: chr [1:4] &quot;English&quot; &quot;German&quot; &quot;Norwegian&quot; &quot;Swahili&quot;
+##   ..$ X2: chr [1:4] &quot;Eid al-Fitr, End of Ramadan&quot; &quot;Eid al-Fitr (Fest des Fastenbrechens)&quot; &quot;Eid al-Fitr, Slutt på ramadan&quot; &quot;Idd el Fitr, Mwisho wa Ramadhani&quot;</code></pre>
+<p>The second table contains information we are interested in - it has Eid occurance data from the year 2015 - 2025 (some are predictions).</p>
+<pre class="r"><code>Eid &lt;- Eid.tables[[2]]</code></pre>
+<p>Another method to extact the table is by creating an empty list and populating it with data</p>
+<pre class="r"><code>Eid2 &lt;- list() #creating an empty list
+
+Eid2 &lt;- url.page %&gt;%
+  html_nodes(&#39;table&#39;) %&gt;% 
+  html_table(fill = TRUE) %&gt;%
+  .[[2]] #populating it with table 2 </code></pre>
+</div>
+<div id="eda-and-cleaning" class="section level2">
+<h2>EDA and cleaning</h2>
+<pre class="r"><code>str(Eid)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    12 obs. of  5 variables:
+##  $ Year        : int  2015 2015 2016 2017 2018 2019 2020 2021 2022 2023 ...
+##  $ Weekday     : chr  &quot;Sun&quot; &quot;Mon&quot; &quot;Thu&quot; &quot;Mon&quot; ...
+##  $ Date        : chr  &quot;19 Jul&quot; &quot;20 Jul&quot; &quot;7 Jul&quot; &quot;26 Jun&quot; ...
+##  $ Name        : chr  &quot;Eid al-Fitr&quot; &quot;Eid al-Fitr observed&quot; &quot;Eid al-Fitr&quot; &quot;Eid al-Fitr&quot; ...
+##  $ Holiday Type: chr  &quot;Public holiday&quot; &quot;Public holiday&quot; &quot;Public holiday&quot; &quot;Public holiday&quot; ...</code></pre>
+<p>The data contains (12, 5) - that is 12 observations and 5 variables</p>
+<p>In the year 2015 - there exists two entries the second one is the observed and thus will delete the first entry</p>
+<pre class="r"><code>Eid = Eid[-1,]</code></pre>
+<p>From the structure above, we can see that the names of weekday is written in some language for example Sunday is J2 - I checked the English equivalence in the website and replaced them.</p>
+<p>The column names and data types are</p>
+<pre class="r"><code>colnames(Eid)</code></pre>
+<pre><code>## [1] &quot;Year&quot;         &quot;Weekday&quot;      &quot;Date&quot;         &quot;Name&quot;         &quot;Holiday Type&quot;</code></pre>
+<pre class="r"><code>c(typeof(Eid$Year), typeof(Eid$Weekday), typeof(Eid$Date))</code></pre>
+<pre><code>## [1] &quot;integer&quot;   &quot;character&quot; &quot;character&quot;</code></pre>
+<p>The analysis will be based on the month and hence I separate the day from the month in column Date</p>
+<pre class="r"><code>Eid &lt;- Eid %&gt;%
+  separate(Date, c(&#39;Day&#39;, &#39;Month&#39;))</code></pre>
+<p>The month of May is written as Mei - I replaced that and the weekday as shown below.</p>
+<blockquote>
+<p>From the website: Sun-J2, Mon-J3, Tue-J4, Wed-J5, Thu-Alh, Fri-Ij, Sat-J1</p>
+</blockquote>
+<pre class="r"><code>Eid$Month &lt;- with(Eid, replace(Month, Month == &quot;Mei&quot;, &quot;May&quot;))
+Eid$Weekday &lt;- with(Eid, replace(Weekday, Weekday == &quot;J1&quot;,  &quot;Sat&quot; ))
+Eid$Weekday &lt;- with (Eid, gsub(&quot;J2&quot;, &quot;Sun&quot;, Weekday )) </code></pre>
+<p>I had to do these one item after another - I will figure out a way next time maybe a loop</p>
+<p>The <em>replace</em> and <em>gsub</em> functions worked for just one item - I tried concatinating the other and got an error while compiling or the matching was not exactly correct. I got this error with gsub
+<em>argument ‘replacement’ has length &gt; 1 and only the first element will be used</em></p>
+<p>I also replaced the rest</p>
+<p>Here is our cleaned data</p>
+<pre class="r"><code>Eid</code></pre>
+<pre><code>##    Year Weekday Day Month                 Name   Holiday Type
+## 2  2015     Mon  20   Jul Eid al-Fitr observed Public holiday
+## 3  2016     Thu   7   Jul          Eid al-Fitr Public holiday
+## 4  2017     Mon  26   Jun          Eid al-Fitr Public holiday
+## 5  2018     Sat  16   Jun          Eid al-Fitr Public holiday
+## 6  2019     Wed   5   Jun          Eid al-Fitr Public holiday
+## 7  2020     Mon  25   May          Eid al-Fitr Public holiday
+## 8  2021     Fri  14   May          Eid al-Fitr Public holiday
+## 9  2022     Wed   4   May          Eid al-Fitr Public holiday
+## 10 2023     Sun  23   Apr          Eid al-Fitr Public holiday
+## 11 2024     Thu  11   Apr          Eid al-Fitr Public holiday
+## 12 2025     Tue   1   Apr          Eid al-Fitr Public holiday</code></pre>
+<pre class="r"><code>Eid.month &lt;- Eid %&gt;% count(Month, name=&quot;Month_occurence&quot;)
+Eid.month</code></pre>
+<pre><code>## # A tibble: 4 x 2
+##   Month Month_occurence
+##   &lt;chr&gt;           &lt;int&gt;
+## 1 Apr                 3
+## 2 Jul                 2
+## 3 Jun                 3
+## 4 May                 3</code></pre>
+<p>For the past 12 years each month has been represented three times except for July.</p>
+<pre class="r"><code>Eid.day &lt;- Eid %&gt;% count(Weekday, name=&#39;Weekday_occurence&#39;)
+Eid.day</code></pre>
+<pre><code>## # A tibble: 7 x 2
+##   Weekday Weekday_occurence
+##   &lt;chr&gt;               &lt;int&gt;
+## 1 Fri                     1
+## 2 Mon                     3
+## 3 Sat                     1
+## 4 Sun                     1
+## 5 Thu                     2
+## 6 Tue                     1
+## 7 Wed                     2</code></pre>
+<p>Eid was observed mostly on Monday from the year 2015 - 2025 - this is the future 😉</p>
+</div>
+<div id="visualization" class="section level2">
+<h2>Visualization</h2>
+<p>Our fourth objective was to visualize the data and get an insight on the month or day that Eid is observed for the 12 years.</p>
+<pre class="r"><code>ggplot(Eid, aes(Year, Weekday)) +
+  geom_point(color=&quot;steelblue&quot;, shape=20, size =3)+
+  scale_x_discrete(limits = c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2024, 2025))+ #To preorder the x axis
+  labs (title = &quot; Weekday Eid observed per Year&quot;)+
+  theme_minimal()</code></pre>
+<p><img src="/post/EidObservations_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(Eid, aes(Year, Month))+
+  geom_point(aes(colour=Weekday), size = 3)+
+  scale_x_discrete(limits = c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2024, 2025))+ #To preorder the x axis
+  labs(title = &quot;Month Eid observed per year &amp; weekday&quot;)+
+  theme_minimal()</code></pre>
+<p><img src="/post/EidObservations_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<blockquote>
+<p>Take home notes : this was a refresher for me and aluta continua</p>
+</blockquote>
+<p>I hope you have enjoyed this - though short 😄</p>
+<blockquote>
+<p>From this data, the prediction is that next year - Eid will occur on a Monday in the month of May - I shall sit tight and wait for it.</p>
+</blockquote>
+<blockquote>
+<p>Have a blessed Eid</p>
+</blockquote>
+</div>

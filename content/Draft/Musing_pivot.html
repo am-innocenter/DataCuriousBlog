@@ -1,0 +1,32 @@
+---
+title: "Musing : pivot wider and group_by"
+author: "Innocenter Amima"
+date: 2020-02-07
+output: html_document
+categories: ["Musings"]
+tags: ["Musings"]
+---
+
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>I was using pivot_wider and noticed some values were NA for some column and this was not supposed to be the case. I will share a replicated example and what steps I used</p>
+<pre class="r"><code>Variable &lt;- LETTERS[1:5]
+Value &lt;- rep(10:29)
+Year &lt;- rep(2010:2014)
+df &lt;- data.frame(c(Year, Year, Year, Year), c(Variable,Variable, Variable, Variable), Value)
+colnames(df) &lt;- c(&quot;Year&quot;, &quot;Variable&quot;, &quot;Value&quot;)</code></pre>
+<pre class="r"><code>df %&gt;% 
+  pivot_wider(names_from = Variable, values_from = Value, values_fn = list(Value=mean)) -&gt;df1</code></pre>
+<pre class="r"><code>df %&gt;% 
+  group_by(Year, Variable) %&gt;% 
+   pivot_wider(names_from = Variable, values_from = Value, values_fn = list(Value=mean))</code></pre>
+<pre><code>## # A tibble: 5 x 6
+## # Groups:   Year [5]
+##    Year     A     B     C     D     E
+##   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  2010  17.5  NA    NA    NA    NA  
+## 2  2011  NA    18.5  NA    NA    NA  
+## 3  2012  NA    NA    19.5  NA    NA  
+## 4  2013  NA    NA    NA    20.5  NA  
+## 5  2014  NA    NA    NA    NA    21.5</code></pre>

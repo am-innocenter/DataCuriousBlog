@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Understanding US Student Loan debt - Data Curious</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta property="og:title" content="Understanding US Student Loan debt" />
+<meta property="og:description" content="This week the data was inspired from the Dignity &amp; Debt project. This will help in understanding and spreading awareness around Student Loan debt. The data source is here
+The objective for this is to perform data visualization and determine the most preferred method of payment for student loans in the US. I will use patchwork package to combine plots.
+Loading the data
+loans &lt;- read.csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-11-26/loans.csv&quot;) glimpse(loans) ## Observations: 291 ## Variables: 10 ## $ agency_name &lt;fct&gt; &quot;Account Control Technology, Inc." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/loans/" />
+<meta property="article:published_time" content="2019-11-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-11-26T00:00:00+00:00" />
+
+	<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Understanding US Student Loan debt"/>
+<meta name="twitter:description" content="This week the data was inspired from the Dignity &amp; Debt project. This will help in understanding and spreading awareness around Student Loan debt. The data source is here
+The objective for this is to perform data visualization and determine the most preferred method of payment for student loans in the US. I will use patchwork package to combine plots.
+Loading the data
+loans &lt;- read.csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-11-26/loans.csv&quot;) glimpse(loans) ## Observations: 291 ## Variables: 10 ## $ agency_name &lt;fct&gt; &quot;Account Control Technology, Inc."/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Data Curious" rel="home">
+				<div class="logo__title">Data Curious</div>
+				<div class="logo__tagline">Posts &amp; Data Musings</div>
+			</a>
+		</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Understanding US Student Loan debt</h1>
+			<div class="post__meta meta">
+<div class="meta__item-categories meta__item">
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/tidy-tuesday" rel="category">Tidy Tuesday</a>, <a class="meta__link" href="/categories/data-viz" rel="category">Data viz</a></span>
+</div>
+
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2019-11-26T00:00:00">November 26, 2019</time>
+</div>
+</div>
+		</header>
+		<figure class="post__thumbnail">
+			<img src="/images/loans1.png" alt="Understanding US Student Loan debt">
+		</figure><div class="content post__content clearfix">
+			
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p>This week the data was inspired from the <a href="https://www.dignityanddebt.org/projects/student-debt-racial-disparities/">Dignity &amp; Debt</a> project. This will help in understanding and spreading awareness around Student Loan debt. The data source is <a href="https://studentaid.gov/data-center/student/default">here</a></p>
+<p>The objective for this is to perform data visualization and determine the most preferred method of payment for student loans in the US. I will use <code>patchwork</code> package to combine plots.</p>
+<p>Loading the data</p>
+<pre class="r"><code>loans &lt;- read.csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-11-26/loans.csv&quot;)
+
+glimpse(loans)</code></pre>
+<pre><code>## Observations: 291
+## Variables: 10
+## $ agency_name        &lt;fct&gt; &quot;Account Control Technology, Inc.&quot;, &quot;Allied Inters…
+## $ year               &lt;int&gt; 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15…
+## $ quarter            &lt;int&gt; 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,…
+## $ starting           &lt;dbl&gt; 5807704381, 3693337631, 2364391549, 704216670, 295…
+## $ added              &lt;dbl&gt; 1040570567, NA, NA, NA, NA, NA, 1040946705, NA, NA…
+## $ total              &lt;dbl&gt; 122602641.8, 113326847.1, 83853003.0, 99643903.3, …
+## $ consolidation      &lt;dbl&gt; 20081893.9, 11533808.6, 7377702.9, 3401361.4, 8946…
+## $ rehabilitation     &lt;dbl&gt; 90952573, 86967994, 64227391, 85960328, 58395653, …
+## $ voluntary_payments &lt;dbl&gt; 5485506.86, 4885225.08, 3939866.10, 2508999.62, 29…
+## $ wage_garnishments  &lt;dbl&gt; 6082668.43, 9939819.25, 8308043.15, 7773214.04, 54…</code></pre>
+<p>Original data file can be accessed through the weekly TidyTuesday Github reporsitory in this <a href="https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-11-26/loans.csv">link</a> and data source is <a href="https://studentaid.ed.gov/sa/about/data-center/student/default">here</a></p>
+<p>Renaming columns</p>
+<pre class="r"><code>loans %&gt;% 
+  mutate(year = case_when(year == 15 ~ 2015, 
+                          year == 16 ~ 2016,
+                          year == 17 ~ 2017,
+                          year == 18 ~ 2018)) -&gt; loans</code></pre>
+<pre class="r"><code>loans %&gt;%
+  group_by(year) %&gt;%
+  summarise(Total.starting = sum(starting, na.rm=TRUE)/10^9,
+            Total.added = sum(added, na.rm = TRUE)/10^9,
+            Total.repaid = sum(total, na.rm=TRUE)/10^9,
+            consolidation.pay = sum(consolidation, na.rm = TRUE)/10^9,
+            rehabilitation.pay = sum(rehabilitation, na.rm = TRUE)/10^9,
+            voluntary.pay = sum(voluntary_payments, na.rm=TRUE)/10^9,
+            wagegarnishment.pay =sum(wage_garnishments, na.rm = TRUE)/10^9 ) %&gt;%
+  arrange(desc(year))  %&gt;%
+  ungroup() -&gt; payment.summary</code></pre>
+<pre class="r"><code>loan1 &lt;- payment.summary %&gt;% 
+  pivot_longer(starts_with(&quot;Total&quot;), names_to = &quot;status&quot;, values_to = &quot;totals&quot;)  %&gt;% 
+  mutate(label = if_else(year == max(year), as.character(status), NA_character_)) %&gt;% 
+  ggplot(mapping = aes(year, totals, col=status)) +
+    geom_line(show.legend = FALSE)+
+    scale_color_discrete(guide = FALSE) +
+    theme_classic() +
+  labs(title= &quot;Loan Amounts per Year&quot;,
+       x= &quot;Year&quot;, y=&quot;Amount in USD (billion)&quot;, caption = &quot;By am_innocenter for #TidyTuesdy 26.11.2019 \n Data source : studentaid.ed.gov&quot;)+
+  geom_label_repel(aes(label=label),nudge_x = 1, na.rm = TRUE )+
+  theme(panel.background = element_rect(fill=&quot;gray8&quot;)) + #, colour = &quot;#6D9EC1&quot;)) +
+  theme(text = element_text(family = &quot;Impact&quot;, size = 12),
+        plot.caption = element_text( size=10, color = &quot;grey40&quot;),
+        plot.title =element_text(size = 14, face=&quot;bold&quot;) ) </code></pre>
+<pre class="r"><code>loan2  &lt;-  payment.summary %&gt;% 
+  pivot_longer(starts_with(&quot;Total&quot;), names_to = &quot;status&quot;, values_to = &quot;totals&quot;)  %&gt;% 
+  mutate(label = if_else(year == max(year), as.character(status), NA_character_)) %&gt;% 
+  ggplot(mapping = aes(year, totals, col=status)) +
+    geom_line(show.legend = FALSE)+
+    scale_color_discrete(guide = FALSE) +
+    scale_y_log10() +
+    theme_classic() +
+    labs(title= &quot;Loan Amounts per Year&quot;, 
+       caption = &quot;By am_innocenter for #TidyTuesdy 26.11.2019 \n Data source : studentaid.ed.gov&quot;, 
+       x= &quot;Year&quot;, y=&quot;Log 10 of Amount in USD (billion)&quot;
+    )+
+    geom_label_repel(aes(label=label),nudge_x = 1, na.rm = TRUE )+
+    theme(panel.background = element_rect(fill=&quot;gray8&quot;)) + #, colour = &quot;#6D9EC1&quot;)) +
+    theme(text = element_text(family = &quot;Impact&quot;, size = 12),
+      plot.caption = element_text( size=10, color = &quot;grey40&quot;),
+        plot.title =element_text(size = 14, face=&quot;bold&quot;) ) </code></pre>
+<pre class="r"><code>loan1 + loan2</code></pre>
+<p><img src="/post/loans_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>payment1 &lt;- payment.summary %&gt;% 
+  pivot_longer(ends_with(&quot;pay&quot;), names_to = &quot;Method&quot;, values_to = &quot;Payment&quot;)   %&gt;% 
+  mutate(label = if_else(year == max(year), as.character(Method), NA_character_)) %&gt;% 
+  ggplot(mapping = aes(year, Payment, col=Method)) +
+  geom_line(show.legend = FALSE) +
+  scale_color_discrete(guide = FALSE) +
+  theme_classic() +
+  labs(title= &quot;Payment Methods &amp; Amount Paid per Year&quot;,
+       x= &quot;Year&quot;, y=&quot;Amount in USD (billion)&quot;, caption = &quot;By am_innocenter for #TidyTuesdy 26.11.2019 \n Data source : studentaid.ed.gov&quot;)+
+  geom_label_repel(aes(label=label),nudge_x = 2, na.rm = TRUE )+
+  theme(panel.background = element_rect(fill=&quot;gray8&quot;)) + #, colour = &quot;#6D9EC1&quot;)) +
+  theme(text = element_text(family = &quot;Impact&quot;, size = 12),
+        plot.caption = element_text( size=10, color = &quot;grey40&quot;),
+        plot.title =element_text(size = 14, face=&quot;bold&quot;) ) </code></pre>
+<pre class="r"><code>payment2 &lt;- payment.summary %&gt;% 
+  pivot_longer(ends_with(&quot;pay&quot;), names_to = &quot;Method&quot;, values_to = &quot;Payment&quot;)   %&gt;% 
+  mutate(label = if_else(year == max(year), as.character(Method), NA_character_)) %&gt;% 
+  ggplot(mapping = aes(year, Payment, col=Method)) +
+  geom_line(show.legend = FALSE) +
+  scale_color_discrete(guide = FALSE) +
+  scale_y_log10() +
+  theme_classic() +
+  labs(title= &quot;Payment Methods &amp; Amount Paid per Year&quot;,
+       x= &quot;Year&quot;, y=&quot;Log 10 of Amount in USD (billion)&quot;, caption = &quot;By am_innocenter for #TidyTuesdy 26.11.2019 \n Data source : studentaid.ed.gov&quot;)+
+  geom_label_repel(aes(label=label),nudge_x = 0.4, na.rm = TRUE )+
+  theme(panel.background = element_rect(fill=&quot;gray8&quot;)) + #, colour = &quot;#6D9EC1&quot;)) +
+  theme(text = element_text(family = &quot;Impact&quot;, size = 12),
+        plot.caption = element_text( size=10, color = &quot;grey40&quot;),
+        plot.title =element_text(size = 14, face=&quot;bold&quot;) ) </code></pre>
+<pre class="r"><code>payment1 + payment2</code></pre>
+<p><img src="/post/loans_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>loans %&gt;% 
+  group_by(agency_name) %&gt;% 
+  summarise(Total.starting = sum(starting, na.rm=TRUE)/10^9, 
+            Total.added = sum(added, na.rm = TRUE)/10^9,
+            Total.repaid = sum(total, na.rm=TRUE)/10^9) %&gt;% 
+  arrange(desc(Total.starting)) %&gt;% 
+  filter(Total.starting &gt; 30) %&gt;% 
+  ungroup() %&gt;% 
+  kableExtra::kable() %&gt;% kableExtra::kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+agency_name
+</th>
+<th style="text-align:right;">
+Total.starting
+</th>
+<th style="text-align:right;">
+Total.added
+</th>
+<th style="text-align:right;">
+Total.repaid
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ConServe
+</td>
+<td style="text-align:right;">
+109.05668
+</td>
+<td style="text-align:right;">
+8.255166
+</td>
+<td style="text-align:right;">
+3.3928101
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Account Control Technology, Inc.
+</td>
+<td style="text-align:right;">
+91.20824
+</td>
+<td style="text-align:right;">
+8.254341
+</td>
+<td style="text-align:right;">
+2.8479518
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FMS Investment Corp
+</td>
+<td style="text-align:right;">
+73.20214
+</td>
+<td style="text-align:right;">
+8.254231
+</td>
+<td style="text-align:right;">
+2.1526409
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GC Services LP
+</td>
+<td style="text-align:right;">
+70.19962
+</td>
+<td style="text-align:right;">
+8.254341
+</td>
+<td style="text-align:right;">
+1.8947032
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Windham Professionals, Inc.
+</td>
+<td style="text-align:right;">
+65.77404
+</td>
+<td style="text-align:right;">
+8.254018
+</td>
+<td style="text-align:right;">
+2.0332805
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Immediate Credit Recovery, Inc.
+</td>
+<td style="text-align:right;">
+50.69030
+</td>
+<td style="text-align:right;">
+9.148463
+</td>
+<td style="text-align:right;">
+1.1516027
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Immediate Credit Recovery
+</td>
+<td style="text-align:right;">
+40.24292
+</td>
+<td style="text-align:right;">
+3.300990
+</td>
+<td style="text-align:right;">
+0.8600955
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FMS
+</td>
+<td style="text-align:right;">
+37.40026
+</td>
+<td style="text-align:right;">
+0.000000
+</td>
+<td style="text-align:right;">
+0.9890860
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Coast Professional, Inc.
+</td>
+<td style="text-align:right;">
+36.48558
+</td>
+<td style="text-align:right;">
+9.477421
+</td>
+<td style="text-align:right;">
+1.1540227
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GC Services
+</td>
+<td style="text-align:right;">
+35.37406
+</td>
+<td style="text-align:right;">
+0.000000
+</td>
+<td style="text-align:right;">
+0.9639185
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Coast Professional Inc
+</td>
+<td style="text-align:right;">
+35.36888
+</td>
+<td style="text-align:right;">
+7.604481
+</td>
+<td style="text-align:right;">
+0.9776974
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+National Recoveries Inc
+</td>
+<td style="text-align:right;">
+34.37731
+</td>
+<td style="text-align:right;">
+7.211969
+</td>
+<td style="text-align:right;">
+0.6891628
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Action Financial Services
+</td>
+<td style="text-align:right;">
+33.65348
+</td>
+<td style="text-align:right;">
+6.487008
+</td>
+<td style="text-align:right;">
+0.7403217
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+National Recoveries, Inc.
+</td>
+<td style="text-align:right;">
+31.86218
+</td>
+<td style="text-align:right;">
+8.850182
+</td>
+<td style="text-align:right;">
+0.7083161
+</td>
+</tr>
+</tbody>
+</table>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/tidy-tuesday/" rel="tag">Tidy Tuesday</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/data-viz/" rel="tag">Data viz</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Innocenter Amima avatar" src="/images/Capture1.PNG" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Innocenter Amima</span>
+	</div>
+	<div class="authorbox__description">
+		My name is Innocenter Amima, a research and data enthusiast. I am iinterested in providing an understanding and deriving insights of the real world data and contributing into reproducible research. I enjoy working in a collaborative and socially diverse environment where I can contribute.
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/parkinjuries/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Amusement Park Injuries in TX, USA</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "life-as-data-points" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Innocenter Amima.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script></body>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data visualization on Data Curious &amp; Statistically Significant</title>
+    <link>/categories/data-visualization/</link>
+    <description>Recent content in Data visualization on Data Curious &amp; Statistically Significant</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="/categories/data-visualization/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Know Your Customers : Watson Customer Data Case</title>
+      <link>/post/customerdata/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/post/customerdata/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Programming Language Ecosystem</title>
+      <link>/post/programminglanguages/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/post/programminglanguages/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

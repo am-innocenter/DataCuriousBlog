@@ -1,0 +1,75 @@
+baseurl = "/" #"https://innocenter-amima.netlify.com/" #"https://im-a-data-cleaner.netlify.com" #"https://data-poet-innocenter.netlify.com/" #"https://github.com/innocenter/Another-Data-Enthusiast.git" #"/"
+title = "Data Curious"
+languageCode = "en-us"
+paginate = "10" # Number of posts per page
+enableEmoji = true
+theme = "Mainroad"
+disqusShortname = "life-as-data-points" # Enable comments by entering your Disqus shortname
+googleAnalytics = "" # Enable Google Analytics by entering your tracking id
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+[Author]
+  name = "Innocenter Amima"
+  bio = "My name is Innocenter Amima, a research and data enthusiast. I am iinterested in providing an understanding and deriving insights of the real world data and contributing into reproducible research. I enjoy working in a collaborative and socially diverse environment where I can contribute."
+
+  avatar = "/images/Capture1.PNG"
+
+
+#reference link to theme https://github.com/vimux/mainroad/
+
+[Params]
+  subtitle = "Posts & Data Musings" # Subtitle of your site
+  #description = " is curious about turning raw data to understanding stories + meaningful insights." # Description of your site
+  opengraph = true
+  twitter_cards = true
+  readmore = true # Show "Read more" button in list if true
+  authorbox = true
+  post_navigation = true
+  post_meta = ["categories", "date"] # Order of post meta information
+  copyright = "Innocenter Amima" # copyright holder, otherwise will use site title
+  #postSections = ["post"]
+  toc = false # Enable Table of Contents
+  #post_navigation = true # Show post navigation at bottom of pages if true
+  #post_meta = ["date", "categories", "translations"] # Order of post meta information
+  #mainSections = ["post", "projects"] # specify section pages to show on home page and the "Recent articles" widget
+  #dateformat = "2006-01-02" # change the format of dates
+  #mathjax = true # Enable MathJax
+  #mathjaxPath = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" # Specify MathJax path
+  #mathjaxConfig = "TeX-AMS-MML_HTMLorMML" # Specify MathJax config
+  highlightColor = "#22bcdb" # Override highlight color
+  #customCSS = ["css/custom.css"] # Include custom CSS files
+
+
+[Params.sidebar]
+  home = "left"   # Configure layout for home page
+  list = "left"   # Configure layout for list pages
+  #single = "left" # Configure layout for single pages
+  # Enable widgets in given order
+  widgets = ["recent", "taglist", "social"]
+
+  #widgets = ["search", "recent", "taglist", "social"]
+
+[Params.widgets]
+  recent_articles = true # Enable "Recent articles" widget
+  recent_num = 5 # Set the number of articles in the "Recent articles" widget
+  categories = true # Enable "Categories" widget
+  tags = true # Enable "Tags" widget
+  tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
+  #social = true # Enable "Social" widget
+
+[Params.widgets.social]
+  # Enable parts of social widget
+  social = true # Enable "Social" widget
+  linkedin = "innocenter-moraa-amima"
+  medium = "am_innocenter"
+  twitter = "am_innocenter"
+  github = "am-innocenter"
+  #facebook = "username"
+  #gitlab = "username"
+  #bitbucket = "username"
+  email = "innocentermoraa@gmail.com"
+
+
+#[[main.menu]]
+ # name = "Projects"
+  #url = ""
+  #weight = 30

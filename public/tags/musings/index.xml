@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Musings on Data Curious</title>
+    <link>/tags/musings/</link>
+    <description>Recent content in Musings on Data Curious</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 07 Feb 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/musings/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Musing : pivot wider and group_by</title>
+      <link>/draft/musing_pivot/</link>
+      <pubDate>Fri, 07 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/draft/musing_pivot/</guid>
+      <description>library(tidyverse) I was using pivot_wider and noticed some values were NA for some column and this was not supposed to be the case. I will share a replicated example and what steps I used
+Variable &amp;lt;- LETTERS[1:5] Value &amp;lt;- rep(10:29) Year &amp;lt;- rep(2010:2014) df &amp;lt;- data.frame(c(Year, Year, Year, Year), c(Variable,Variable, Variable, Variable), Value) colnames(df) &amp;lt;- c(&amp;quot;Year&amp;quot;, &amp;quot;Variable&amp;quot;, &amp;quot;Value&amp;quot;) df %&amp;gt;% pivot_wider(names_from = Variable, values_from = Value, values_fn = list(Value=mean)) -&amp;gt;df1 df %&amp;gt;% group_by(Year, Variable) %&amp;gt;% pivot_wider(names_from = Variable, values_from = Value, values_fn = list(Value=mean)) ## # A tibble: 5 x 6 ## # Groups: Year [5] ## Year A B C D E ## &amp;lt;int&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; ## 1 2010 17.</description>
+    </item>
+    
+  </channel>
+</rss>

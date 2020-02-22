@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Materials on Data Curious</title>
+    <link>/categories/materials/</link>
+    <description>Recent content in Materials on Data Curious</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 18 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/materials/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Materials</title>
+      <link>/materials/</link>
+      <pubDate>Sun, 18 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/materials/</guid>
+      <description>Below are some materials I have found useful
+ R for Data Science by Garrett Grolemund and Hadley Wickham Doing Data Science for more. Learn to purrr Workflow vs script  </description>
+    </item>
+    
+  </channel>
+</rss>

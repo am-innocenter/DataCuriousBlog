@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R markdown on Data Curious</title>
+    <link>/tags/r-markdown/</link>
+    <description>Recent content in R markdown on Data Curious</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 18 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/r-markdown/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>R markdown errors - not knitting</title>
+      <link>/post/error_rprofile/</link>
+      <pubDate>Sun, 18 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/error_rprofile/</guid>
+      <description>I was getting errors knitting .Rmarkdown or .Rmd files and the culprint was that I had multiple .Rprofiles in my Home and project directories. The error is as shown below
+Everytime I restarted the machine it was loading the previous workspace with the following error.
+At first I thought .RData was the culprint and I unliked it using unlink(&amp;ldquo;~/.RData&amp;rdquo;). It still did not solve the problem.
+I had updated to the latest Rversion and my first instinct was update libraries, uninstall and reinstall R+Rstudio but still the error was there anytime I tried knitting.</description>
+    </item>
+    
+  </channel>
+</rss>

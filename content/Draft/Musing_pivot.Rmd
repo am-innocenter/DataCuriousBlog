@@ -1,0 +1,38 @@
+---
+title: "Musing : pivot wider and group_by"
+author: "Innocenter Amima"
+date: 2020-02-07
+output: html_document
+categories: ["Musings"]
+tags: ["Musings"]
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE}
+library(tidyverse)
+```
+
+I was using pivot_wider and noticed some values were NA for some column and this was not supposed to be the case. I will share a replicated example and what steps I used 
+
+```{r}
+Variable <- LETTERS[1:5]
+Value <- rep(10:29)
+Year <- rep(2010:2014)
+df <- data.frame(c(Year, Year, Year, Year), c(Variable,Variable, Variable, Variable), Value)
+colnames(df) <- c("Year", "Variable", "Value")
+```
+
+```{r}
+df %>% 
+  pivot_wider(names_from = Variable, values_from = Value, values_fn = list(Value=mean)) ->df1
+```
+
+```{r}
+df %>% 
+  group_by(Year, Variable) %>% 
+   pivot_wider(names_from = Variable, values_from = Value, values_fn = list(Value=mean))
+```
+

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Cleaning on Data Curious</title>
+    <link>/categories/data-cleaning/</link>
+    <description>Recent content in Data Cleaning on Data Curious</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 19 Sep 2019 18:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/data-cleaning/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Amusement Park Injuries in TX, USA</title>
+      <link>/post/parkinjuries/</link>
+      <pubDate>Thu, 19 Sep 2019 18:13:14 -0500</pubDate>
+      
+      <guid>/post/parkinjuries/</guid>
+      <description>Amusement park injuries data is from data.world. This is part of the weekly #TidyTuesday project aimed at the R ecosystem on Twitter.
+The data has a lot of text, inconsistent NAs and dates.
+Objectives Clean the data Perform EDA and Data viz  To achieve the objectives we shall answer the following questions
+How many injuries were recorded per year, per month? What kind of injuries were reported? What were the top causes of injuries?</description>
+    </item>
+    
+    <item>
+      <title>Programming Language Ecosystem</title>
+      <link>/post/programminglanguages/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/post/programminglanguages/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

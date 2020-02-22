@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Mining on Data Curious</title>
+    <link>/categories/data-mining/</link>
+    <description>Recent content in Data Mining on Data Curious</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 08 Sep 2019 18:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/data-mining/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Data Mining and Analysis using rtweet package</title>
+      <link>/post/censuske/</link>
+      <pubDate>Sun, 08 Sep 2019 18:13:14 -0500</pubDate>
+      
+      <guid>/post/censuske/</guid>
+      <description>Census 2019 in Kenya The 8th 2019 Population and Housing Census started from the night of 24/25th August 2019 and ended on 31st August 2019.
+Census involved counting of people within the border of Kenya at a specific time. Census is an important process for the Govenrment as it provides evidence for proper planning and resource allocation, policy formulation and targeting of development plans. You can read more about the census here and here</description>
+    </item>
+    
+    <item>
+      <title>Data mining and wrangling : A case of Eid Occurance</title>
+      <link>/post/eidobservations/</link>
+      <pubDate>Wed, 05 Jun 2019 18:13:14 -0500</pubDate>
+      
+      <guid>/post/eidobservations/</guid>
+      <description>Finally, Eid is here! Id-Ul-Fitr commonly known as Eid marks the end of fasting (Ramadhan) and is the first day of the Islamic month Shawwal. I spent my weekend learning data mining with rvest and analysing data for Eid observations.
+The following link contains information about Eid, its occurence of per Day, Month, year. For today, I intend to only mine the table and explore.
+Objectives Mine data - table - from a URL using the package rvest (this was my first time and its really simple)</description>
+    </item>
+    
+  </channel>
+</rss>

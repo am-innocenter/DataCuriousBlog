@@ -1,0 +1,172 @@
+---
+title: "Data Mining and Analysis using rtweet package"
+author: "Innocenter Amima"
+date: 2019-09-08T18:13:14-05:00
+output: html_document
+categories: ["R", "Data Mining", "NLP"]
+tags: ["Data Mining", "NLP"]
+thumbnail: /images/uniqWords.png
+---
+
+
+
+<div id="census-2019-in-kenya" class="section level1">
+<h1>Census 2019 in Kenya</h1>
+<p>The 8<sup>th</sup> 2019 Population and Housing Census started from the night of 24/25th August 2019 and ended on 31st August 2019.</p>
+<p>Census involved counting of people within the border of Kenya at a specific time. Census is an important process for the Govenrment as it provides evidence for proper planning and resource allocation, policy formulation and targeting of development plans. You can read more about the census <a href="https://www.knbs.or.ke/get-ready-to-be-counted/">here</a> and <a href="https://www.standardmedia.co.ke/business/article/2001338117/what-you-need-to-know-about-2019-census">here</a></p>
+<div id="objectives" class="section level2">
+<h2>Objectives</h2>
+<p>Here we shall</p>
+<ol style="list-style-type: decimal">
+<li>Perform data mining using <code>rtweet</code> package.</li>
+<li>Determine unique words in #Censuskenya2019 tweets.</li>
+<li>Identify top user accounts in #Censuskenya2019 tweets.</li>
+<li>Plot time series of tweets including #Censuskenya2019.</li>
+</ol>
+<p>Loading packages</p>
+<pre class="r"><code>library(rtweet) #twitter mining. All you need is a Twitter account (user name and password)
+library(ggplot2) #plotting
+library(dplyr) #pipes  tidyverse
+library(tidytext) # text mining
+library(stopwords)
+
+theme_set(theme_classic()) #setting theme to classic()</code></pre>
+</div>
+<div id="data-mining" class="section level2">
+<h2>Data Mining</h2>
+<blockquote>
+<p>I decided to use <code>rtweet</code> given that it has more functionality compared to other twitter APIS like <code>twitteR</code>, <code>streamR</code>.</p>
+</blockquote>
+<p>Kindly note the tweets harvested are based on who I follow on Twitter - it is a sample of what people are tweeting about #Censuskenya2019.</p>
+<pre class="r"><code>censusTweets &lt;- search_tweets(q=&quot;#Censuskenya2019&quot;,n=10000, include_rts = FALSE, lang=&#39;en&#39;)
+
+censusKE &lt;- censusTweets #creating a copy
+
+#glimpse(censusKE)</code></pre>
+<p>The function <code>search_tweet()</code> returns tweets for the past 6-9 days. Unfortunately, I do not have a premium account - if you do try using <code>search_30day()</code> and the function requires env_name.</p>
+<pre class="r"><code>head(censusKE$text) #Top Tweet Unique Words</code></pre>
+<pre><code>## [1] &quot;Shit. Well, this is happening &lt;U+0001F447&gt;&lt;U+0001F447&gt;\n#someonetellknbs\n#KOTLoyals \n#censuskenya2019 \n#Kenya https://t.co/KTgAja1Z1B&quot;                                                                                          
+## [2] &quot;Uncle @FredMatiangi juu #censuskenya2019 iliisha can we now use these reflector jackets kuendesha boda?&quot;                                                                                                                           
+## [3] &quot;My mum was answering all the questions for my 15yo baby sister during #censuskenya2019 and lost her shit when she was asked if she has ever been pregnant &lt;U+0001F923&gt;&lt;U+0001F923&gt;&lt;U+0001F923&gt;&lt;U+0001F923&gt;&lt;U+0001F923&gt; &#39;SHE IS STILL A CHILD&#39; like mum relax &lt;U+0001F923&gt;&lt;U+0001F923&gt;&lt;U+0001F923&gt;&lt;U+0001F923&gt; https://t.co/U81jNvhmr9&quot;
+## [4] &quot;Someone lied to Kenyans that the #censuskenya2019 was going to be different and results would be out within the shortest time, it&#39;s 2 weeks now since 31.08.2019, who else is counting?&quot;                                           
+## [5] &quot;When is @KNBStats planning to enumerate my family. @FredMatiangi\n#Censuskenya2019&quot;                                                                                                                                                
+## [6] &quot;Why is @CBKKenya pinging me to return old 1000K notes by deadline Sept. 30, yet the government recently did #censuskenya2019 and know I&#39;m #JOBLESS?&quot;</code></pre>
+</div>
+<div id="data-cleaning-analysis-and-visualization" class="section level2">
+<h2>Data Cleaning, Analysis and Visualization</h2>
+<p>When tweeting people use connectors and other wordss. <code>tinytex</code> package has a function known as <code>stop_words()</code> that has three lexicons for English stop words. Below are some stop words</p>
+<pre class="r"><code>head(stop_words)</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   word      lexicon
+##   &lt;chr&gt;     &lt;chr&gt;  
+## 1 a         SMART  
+## 2 a&#39;s       SMART  
+## 3 able      SMART  
+## 4 about     SMART  
+## 5 above     SMART  
+## 6 according SMART</code></pre>
+<p>We use <code>unnest_tokens()</code> from <code>tidytxt</code> package
+to convert any text from upper to lower case, remove punctuation, add unique ID. We clean the data, convert all the text to lower case and remove stop words</p>
+<pre class="r"><code>censusKE %&gt;%
+  dplyr::select(text) %&gt;%
+  unnest_tokens(Words, text) %&gt;%
+  filter(!Words %in% stop_words$word) %&gt;%
+  count(Words, sort=TRUE)</code></pre>
+<pre><code>## # A tibble: 83 x 2
+##    Words               n
+##    &lt;chr&gt;           &lt;int&gt;
+##  1 censuskenya2019     9
+##  2 https               3
+##  3 t.co                3
+##  4 business            2
+##  5 family              2
+##  6 fredmatiangi        2
+##  7 government          2
+##  8 kenyans             2
+##  9 mum                 2
+## 10 results             2
+## # ... with 73 more rows</code></pre>
+<p>https appear as the 2nd highest word in #Censuskenya2019 - these represents links shared and we shall remove the https links from the text. Find and replace functions in base R include:</p>
+<ol style="list-style-type: decimal">
+<li><code>sub(pattern, replacement, text)</code> replaces ONLY the first match in each element of a text vector.</li>
+<li><code>gsub(pattern, replacement, text)</code> replacess ALL the matching patterns of a text vector.</li>
+</ol>
+<pre class="r"><code>censusKE$strpWords &lt;- gsub(&quot;https.*&quot;, &quot;&quot;, censusKE$text) #removing https.* links</code></pre>
+<p>Base R has various functions that are used for regular expression and they achieve different outcomes. A very gentle introduction to regular expression has been done by Jon Calder as a course on Swirl(). Installation can be done by either using</p>
+<pre><code>library(swirl)
+install_course(&quot;Regular Expressions&quot;)
+swirl()</code></pre>
+<p>or alternatively downloading the latest version directly from Github</p>
+<p><code>install_course_github("jonmcalder", "Regular_Expressions")</code></p>
+<div id="unique-words-in-censuskenya2019-tweets" class="section level3">
+<h3>Unique words in #Censuskenya2019 tweets</h3>
+<pre class="r"><code>censusKE %&gt;%
+  dplyr::select(strpWords) %&gt;%
+  unnest_tokens(word, strpWords) %&gt;%
+  filter(!word %in% stop_words$word) %&gt;%
+  count(word, sort = TRUE) %&gt;%
+  top_n(20) %&gt;%
+  ggplot(censusKE, mapping =  aes(reorder(word, n), n)) +
+    geom_bar(stat = &#39;identity&#39;, aes(fill=word), show.legend = FALSE) +
+    coord_flip()+
+    labs(title = &quot;Count of unique words in #Censuskenya2019 tweets &quot;, x=&quot;Unique Words&quot;, y=&quot;Count&quot;)</code></pre>
+<pre><code>## Selecting by n</code></pre>
+<p><img src="/post/CensusKE_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>I was expecting to see <em>KNBS</em> : it is ranked number 3 on the list. <em>Censusandbig4</em> agenda ranks at the top 5. Politician names such as <em>Uhuru, Raila, Ruto</em> are among the top 20 unique words being tweeted under the hashtag. <em>Enumerators</em> were hired to perform this <em>excercise</em> and hence these two words are among the top 20 unique words. However, a <em>mobile number</em> is among the top 20 words - am not sure if it is a hot line for census?</p>
+</div>
+<div id="top-users-in-censuskenya2019-tweets" class="section level3">
+<h3>Top users in #Censuskenya2019 tweets</h3>
+<p><code>user_data()</code> returns information of the users including screen names, location, creation time, description…</p>
+<pre class="r"><code>users &lt;- users_data(censusKE)
+users %&gt;%
+  dplyr::select(location) %&gt;%
+  unnest_tokens(Location, location) %&gt;%
+  count(Location, sort =TRUE) %&gt;%
+  top_n(10) %&gt;%
+  ggplot(users, mapping = aes(reorder(Location, n), n)) +
+    geom_bar(stat = &#39;identity&#39;, aes(fill=Location), show.legend = FALSE) + 
+    coord_flip() +
+    labs(title = &quot;Location of users in #Censuskenya2019 tweets&quot;, x=&quot;Location&quot;, y=&quot;Count&quot;) </code></pre>
+<pre><code>## Selecting by n</code></pre>
+<p><img src="/post/CensusKE_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+Most users were tweeting #Censususkenya2019 while in Kenya -especially Nairobi.</p>
+<pre class="r"><code>users %&gt;% 
+  dplyr::select(screen_name) %&gt;%
+  count(screen_name, sort = TRUE) %&gt;%
+  top_n(15) %&gt;%
+  ggplot(users, mapping = aes(reorder(screen_name, n), n)) +
+    geom_bar(stat = &#39;identity&#39;, aes(fill=screen_name), show.legend = FALSE)  +
+    labs(title=&quot;Top users in #Censuskenya2019 tweets&quot;, x=&quot;Screen Names&quot;, y=&quot;Count&quot;)+  
+    coord_flip()</code></pre>
+<pre><code>## Selecting by n</code></pre>
+<p><img src="/post/CensusKE_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>I was expecting KNBS account to be among the top looks like they’ve not been active in #Censuskenya2019 tweets.</p>
+</div>
+<div id="users-with-verified-account-in-censuskenya2019-tweets." class="section level3">
+<h3>Users with verified account in #Censuskenya2019 tweets.</h3>
+<pre class="r"><code>table(users$verified)</code></pre>
+<pre><code>## 
+## FALSE 
+##     9</code></pre>
+<p>Only 15 user accounts are veified in the <code>users</code> data object.</p>
+<pre class="r"><code>users %&gt;%
+  count(verified, sort=TRUE) %&gt;%
+  mutate(perc = n * 100/nrow(users)) -&gt;verified.users
+
+
+ggplot(verified.users, aes(x=&quot;&quot;, y=perc, fill=verified))+
+  geom_bar(width =1, stat = &#39;identity&#39;) +
+  coord_polar(&quot;y&quot;, start=0)+
+  labs(title = &quot;Count of verified accounts in #Censuskenya2019 tweets&quot;)+
+  geom_text(aes(y=(0.67*perc), label=sprintf(&quot;%0.0f%%&quot;, round(perc,2))), color=&quot;white&quot;)+
+  theme_void()</code></pre>
+<p><img src="/post/CensusKE_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="time-series-of-censuskenya2019-tweets" class="section level3">
+<h3>Time series of #Censuskenya2019 tweets</h3>
+<pre class="r"><code>ts_plot(censusKE, by=&quot;days&quot;)</code></pre>
+<p><img src="/post/CensusKE_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>From the time series plot a lot of activity is seen on the last day of Census 2019 in Kenya i.e between 30<sup>th</sup> and 31<sup>st</sup> of August 2019.</p>
+</div>
+</div>
+</div>
