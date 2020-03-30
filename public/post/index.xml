@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Data Curious</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 30 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Data Visualisation: Confirmed New Zealand COVID-19 Cases</title>
+      <link>/post/cases/</link>
+      <pubDate>Mon, 30 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/cases/</guid>
+      <description>The objective is to provide insights based on the information from the New Zealand (NZ) Ministry of Health. Here is the link for obtaining the COVID-19 cases. Will look at the exploring the confirmed cases per District Health Board - commonly known as DHB, gender and age group.
+ With time I might automate the data visualisation - the tricky bit is that the table format and HTML texts/labels keep changing every time.</description>
+    </item>
     
     <item>
       <title>Understanding US Student Loan debt</title>

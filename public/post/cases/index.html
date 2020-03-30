@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Data Visualisation: Confirmed New Zealand COVID-19 Cases - Data Curious</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta property="og:title" content="Data Visualisation: Confirmed New Zealand COVID-19 Cases" />
+<meta property="og:description" content="The objective is to provide insights based on the information from the New Zealand (NZ) Ministry of Health. Here is the link for obtaining the COVID-19 cases. Will look at the exploring the confirmed cases per District Health Board - commonly known as DHB, gender and age group.
+ With time I might automate the data visualisation - the tricky bit is that the table format and HTML texts/labels keep changing every time." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/cases/" />
+<meta property="article:published_time" content="2020-03-30T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-03-30T00:00:00+00:00" />
+
+	<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Data Visualisation: Confirmed New Zealand COVID-19 Cases"/>
+<meta name="twitter:description" content="The objective is to provide insights based on the information from the New Zealand (NZ) Ministry of Health. Here is the link for obtaining the COVID-19 cases. Will look at the exploring the confirmed cases per District Health Board - commonly known as DHB, gender and age group.
+ With time I might automate the data visualisation - the tricky bit is that the table format and HTML texts/labels keep changing every time."/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Data Curious" rel="home">
+				<div class="logo__title">Data Curious</div>
+				<div class="logo__tagline">Posts &amp; Data Musings</div>
+			</a>
+		</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Data Visualisation: Confirmed New Zealand COVID-19 Cases</h1>
+			<div class="post__meta meta">
+<div class="meta__item-categories meta__item">
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/data-mining" rel="category">Data Mining</a>, <a class="meta__link" href="/categories/data-viz" rel="category">Data viz</a></span>
+</div>
+
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2020-03-30T00:00:00">March 30, 2020</time>
+</div>
+</div>
+		</header>
+		<figure class="post__thumbnail">
+			<img src="/images/cases1.png" alt="Data Visualisation: Confirmed New Zealand COVID-19 Cases">
+		</figure><div class="content post__content clearfix">
+			
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<link href="/rmarkdown-libs/wordcloud2/wordcloud.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/wordcloud2/wordcloud2-all.js"></script>
+<script src="/rmarkdown-libs/wordcloud2/hover.js"></script>
+<script src="/rmarkdown-libs/wordcloud2-binding/wordcloud2.js"></script>
+
+
+<blockquote>
+<p>The objective is to provide insights based on the information from the New Zealand (NZ) Ministry of Health. Here is the <a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details">link</a> for obtaining the COVID-19 cases. Will look at the exploring the confirmed cases per District Health Board - commonly known as DHB, gender and age group.</p>
+</blockquote>
+<p><em>With time I might automate the data visualisation - the tricky bit is that the table format and HTML texts/labels keep changing every time. This caused errors in my previous automated visualisation making it difficult to automate data extraction/mining.</em></p>
+<div id="data-mining-and-cleaning" class="section level2">
+<h2>Data Mining and Cleaning</h2>
+<p>I used <code>rvest</code> and <code>xml2</code> packages for data mining, <code>tidyverse</code> for data exploration and visualization. The codes can be viewed here.</p>
+<p>We have 552 confirmed cases as at 9.00 am 30 March. Below is a glimpse of the confirmed cases - the table only has variables of interest</p>
+<pre><code>## Observations: 552
+## Variables: 6
+## $ `Report Date`            &lt;date&gt; 2020-03-29, 2020-03-29, 2020-03-29, 2020-03…
+## $ Sex                      &lt;chr&gt; &quot;Male&quot;, &quot;Female&quot;, &quot;Male&quot;, &quot;&quot;, &quot;Female&quot;, &quot;Mal…
+## $ `Age Group`              &lt;chr&gt; &quot;50 to 59&quot;, &quot;50 to 59&quot;, &quot;40 to 49&quot;, &quot;20 to 2…
+## $ DHB                      &lt;chr&gt; &quot;Auckland&quot;, &quot;Auckland&quot;, &quot;Auckland&quot;, &quot;Aucklan…
+## $ Overseas                 &lt;chr&gt; &quot;Yes&quot;, &quot;Yes&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;&quot;, &quot;…
+## $ `Last country before NZ` &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;United …</code></pre>
+</div>
+<div id="data-visualization" class="section level2">
+<h2>Data Visualization</h2>
+<p>From the above chart, we observe that Auckland, Southern, Waikato and Waitemata are the top four DHBs which constitutes 41.12 % of the total confirmed COVID-19 cases in NZ.</p>
+<p>When analysing individual variables, I noticed some missing information on gender, age group were missing. We shall exclude these</p>
+<pre class="r"><code>#summary 1 by age and gender
+confirmed.cases.by &lt;- confirmed.cases %&gt;% 
+  group_by(`Age Group`, Sex) %&gt;% 
+  count(`Age Group`) %&gt;% #count cases per DHB
+  arrange(`Age Group`) %&gt;% 
+  mutate( prop=n*100/tot) %&gt;% 
+  filter(! `Age Group`== &quot;&quot; &amp; !Sex ==&quot;&quot;)</code></pre>
+<p>Removing them reduced the data set by about 1 percent</p>
+<pre class="r"><code>#visualization 1
+confirmed.cases.by %&gt;% 
+  mutate(count= if_else(Sex==&quot;Female&quot;, -n, n)) %&gt;% 
+ggplot(mapping= aes(`Age Group`, count, fill=Sex, label=paste0(round(prop,1), &quot;%&quot;)))  +
+  geom_bar(stat = &quot;identity&quot;)+
+  coord_flip()+
+  scale_y_continuous(breaks = seq(-60, 60, 20),
+                     labels = c(seq(60,0,-20), seq(20,60,20)))+
+  labs(x=&quot;Age group&quot;, y=&quot;Confirmed Cases&quot;, title =&quot;Confirmed cases per Age group and gender&quot; ,subtitle = tail(str_split(caption[1], &quot;,&quot;)[[1]],1), caption = &quot;Plot by: @am_innocenter \n #Dataviz for #NZ_COVID-19  \n Data source : bit.ly/healthgovtnzCovid&quot;)+
+  theme(text = element_text(family = &quot;Comic Sans MS&quot;, size = 14),
+        plot.caption = element_text( size=10, color = &quot;gray40&quot;),
+        plot.title =element_text(size = 16, face=&quot;bold&quot;, vjust=1) ) +
+  geom_text(show.legend = F, color=&quot;black&quot;, size=4.5)+
+  geom_text(aes(3,-45), label=&quot;\u2640&quot;, hjust = 0.5, size = 25,color = &quot;#F8766D&quot;, family = &quot;Comic Sans MS&quot;) +
+  geom_text(aes(3,30), label=&quot;\u2642&quot;, hjust = 0.5, size = 25, color = &quot;#00BFC4&quot;, family = &quot;Comic Sans MS&quot;) </code></pre>
+<p><img src="/post/cases_files/figure-html/unnamed-chunk-6-1.png" width="1152" /></p>
+<p>The age group with the highest confirmed cases is 20 to 29 which is 25.54% of the total confirmed cases, followed by 40 to 49 with 16.12 % and then 50 to 59 with 16.12%. We have more female confirmed cases.</p>
+<pre class="r"><code>#visualization
+confirmed.cases %&gt;% 
+  filter(! `Age Group`== &quot;&quot; &amp; !Sex ==&quot;&quot;) %&gt;% 
+  group_by(`Report Date`, `Age Group` , Sex) %&gt;% 
+  count(`Age Group`) %&gt;% 
+  ggplot(mapping=aes(`Report Date`, `Age Group`, size=n , color=Sex)) +
+    geom_point() +
+    scale_x_date(date_breaks =  &quot;2 days&quot; , date_labels = &quot;%d %b&quot;)+
+    theme_light()+
+    labs(x=&quot;&quot;, y=&quot;Age Group&quot;,title = &quot;Confirmed cases trend per Age group and gender&quot; ,subtitle = tail(str_split(caption[1], &quot;,&quot;)[[1]],1),
+         caption = &quot;Plot by: @am_innocenter \n #Dataviz for #NZ_COVID-19  \n Data source : bit.ly/healthgovtnzCovid&quot;)+
+    theme(text = element_text(family = &quot;Comic Sans MS&quot;, size = 14),
+          plot.caption = element_text( size=10, color = &quot;grey40&quot;),
+          plot.title =element_text(size = 16, face=&quot;bold&quot;, vjust=1) )</code></pre>
+<p><img src="/post/cases_files/figure-html/unnamed-chunk-8-1.png" width="1152" /></p>
+<p>Almost a similar chart as above, this however includes time. The size of the doot indicates the number od confirmed cases recorded. Initially the confirmed cases were from people &gt; 30 years and over time the cases were recorded for people &lt; 20 years including one &lt;1 year and four who are in the 1-4 age group.</p>
+<p>Creating a wordcloud of the Last country before New Zealand. Some of the confirmed cases have New Zealand as the last country to imply within-country travel and this is based on the flight Nos. Hover to get the count for each country.</p>
+<div id="htmlwidget-1" style="width:1152px;height:768px;" class="wordcloud2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"word":["usa","australia","uae","singapore","qatar","newzealand","france","indonesia","switzerland","canada","england","argentina","ireland","egypt","thailand","germany","spain","philippines","cambodia","malaysia","northernamerica","netherlands","greece","japan","saudiarabia","scotland","vietnam","austria","india","belgium","zimbabwe","middleeast","portugal","iran","italy"],"freq":[72,42,31,15,14,7,7,6,6,5,5,4,3,3,3,3,3,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"fontFamily":"Comic Sans MS","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":4,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+<p>The top five last country of before NZ from the word cloud above and frequent table below:</p>
+<ol style="list-style-type: decimal">
+<li>USA | 72</li>
+<li>Australia| 42</li>
+<li>UAE | 31</li>
+<li>Singapore | 15</li>
+<li>Qatar |14</li>
+</ol>
+</div>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/tidy-tuesday/" rel="tag">Tidy Tuesday</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/data-viz/" rel="tag">Data viz</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Innocenter Amima avatar" src="/images/Capture1.PNG" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Innocenter Amima</span>
+	</div>
+	<div class="authorbox__description">
+		My name is Innocenter Amima, a research and data enthusiast. I am interested in deriving insights from real world data and making contributions to reproducible research. I am currently working on an AgricTech project #Sustainability #WineScience. I enjoy learning from people and working in collaborative and socially diverse environment.
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/loans/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Understanding US Student Loan debt</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "life-as-data-points" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Innocenter Amima.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script></body>
+</html>
