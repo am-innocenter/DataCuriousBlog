@@ -134,6 +134,28 @@ confirmed.cases %&gt;%
 <p><img src="/post/cases_files/figure-html/unnamed-chunk-8-1.png" width="1152" /></p>
 <p>Almost a similar chart as above, this however includes time. The size of the doot indicates the number od confirmed cases recorded. Initially the confirmed cases were from people &gt; 30 years and over time the cases were recorded for people &lt; 20 years including one &lt;1 year and four who are in the 1-4 age group.</p>
 <p>Creating a wordcloud of the Last country before New Zealand. Some of the confirmed cases have New Zealand as the last country to imply within-country travel and this is based on the flight Nos. Hover to get the count for each country.</p>
+<pre class="r"><code>#renaming UK, USA and UAE - they take so much space in the wordcloud
+confirmed.cases &lt;- confirmed.cases %&gt;% 
+  mutate(LastCountry = 
+           case_when(`Last country before NZ` == &quot;United States of America&quot; ~ &quot;USA&quot;, 
+                    `Last country before NZ` == &quot;United Kingdom&quot; ~ &quot;UK&quot;,
+                    `Last country before NZ` == &quot;United Arab Emirates&quot; ~ &quot;UAE&quot;,
+                     TRUE ~ `Last country before NZ`))
+
+#remove spaces for other countries
+confirmed.cases$LastCountry &lt;- gsub(&quot; &quot;, &quot;&quot;, confirmed.cases$LastCountry)
+
+#creating word corpus
+country.corpus &lt;- Corpus(VectorSource(confirmed.cases$LastCountry))
+country.corpus &lt;-  TermDocumentMatrix(country.corpus) 
+
+#creating dataframe
+m &lt;- as.matrix(country.corpus)
+v &lt;- sort(rowSums(m),decreasing=TRUE)
+LastCountry.df &lt;- data.frame(word = names(v),freq=v)  
+
+#wordcloud
+wordcloud2(LastCountry.df,size=1.6,color=&#39;random-dark&#39;,  fontFamily=&quot;Comic Sans MS&quot;)</code></pre>
 <div id="htmlwidget-1" style="width:1152px;height:768px;" class="wordcloud2 html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1">{"x":{"word":["usa","australia","uae","singapore","qatar","newzealand","france","indonesia","switzerland","canada","england","argentina","ireland","egypt","thailand","germany","spain","philippines","cambodia","malaysia","northernamerica","netherlands","greece","japan","saudiarabia","scotland","vietnam","austria","india","belgium","zimbabwe","middleeast","portugal","iran","italy"],"freq":[72,42,31,15,14,7,7,6,6,5,5,4,3,3,3,3,3,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"fontFamily":"Comic Sans MS","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":4,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
 <p>The top five last country of before NZ from the word cloud above and frequent table below:</p>

@@ -195,7 +195,7 @@ total.cases %>%
 
 Creating a wordcloud of the Last country before New Zealand. Some of the confirmed cases have New Zealand as the last country to imply within-country travel and this is based on the flight Nos. Hover to get the count for each country.
 
-```{r, echo=F}
+```{r}
 #renaming UK, USA and UAE - they take so much space in the wordcloud
 confirmed.cases <- confirmed.cases %>% 
   mutate(LastCountry = 
@@ -209,14 +209,12 @@ confirmed.cases$LastCountry <- gsub(" ", "", confirmed.cases$LastCountry)
 
 #creating word corpus
 country.corpus <- Corpus(VectorSource(confirmed.cases$LastCountry))
-
 country.corpus <-  TermDocumentMatrix(country.corpus) 
 
 #creating dataframe
 m <- as.matrix(country.corpus)
 v <- sort(rowSums(m),decreasing=TRUE)
 LastCountry.df <- data.frame(word = names(v),freq=v)  
-
 
 #wordcloud
 wordcloud2(LastCountry.df,size=1.6,color='random-dark',  fontFamily="Comic Sans MS")
